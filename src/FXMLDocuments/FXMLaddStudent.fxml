@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocuments.FXMLaddStudentController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Añadir alumno" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="28.0" />
+         </font>
+      </Text>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
+            <TextField alignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets left="25.0" right="25.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos: " />
+            <TextField />
+         </children>
+         <VBox.margin>
+            <Insets left="25.0" right="25.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
+            <TextField />
+         </children>
+         <VBox.margin>
+            <Insets left="25.0" right="25.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addStudent" text="Añadir" />
+            <Button mnemonicParsing="false" text="Cancelar" />
+         </children>
+         <VBox.margin>
+            <Insets left="25.0" right="25.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" top="20.0" />
+   </padding>
+</VBox>
