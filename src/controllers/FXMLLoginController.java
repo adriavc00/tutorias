@@ -5,13 +5,21 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -20,9 +28,11 @@ import javafx.scene.text.Text;
  */
 public class FXMLLoginController implements Initializable {
     @FXML
-    private TextField texto_usuario;
+    private TextField user;
     @FXML
-    private Text mensaje_usuario;
+    private PasswordField password;
+    @FXML
+    private Button startButton;
 
     /**
      * Initializes the controller class.
@@ -33,7 +43,17 @@ public class FXMLLoginController implements Initializable {
     }
 
     @FXML
-    private void pulsadoIniciar(ActionEvent event) {
+    private void startPressed(ActionEvent event) throws IOException {
+        // Do stuff with user and password.
+        ((Stage) startButton.getScene().getWindow()).close();
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+        Parent root = customLoader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Tutorías");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

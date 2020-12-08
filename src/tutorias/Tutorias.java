@@ -19,13 +19,14 @@ public class Tutorias extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLLogin.fxml"));
 
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.setMinHeight(420);
         stage.setMinWidth(650);
+        stage.setTitle("Iniciar sesión");
         stage.show();
     }
 
