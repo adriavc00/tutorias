@@ -7,7 +7,11 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -16,6 +20,9 @@ import javafx.fxml.Initializable;
  */
 public class FXMLListStudentsController implements Initializable {
 
+    @FXML
+    private Button backButton;
+
     /**
      * Initializes the controller class.
      */
@@ -23,5 +30,10 @@ public class FXMLListStudentsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void back(ActionEvent event) {
+        ((Stage) backButton.getScene().getWindow()).close();
+    }
     
 }
