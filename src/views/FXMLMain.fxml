@@ -17,7 +17,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Asignatura">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Añadir" />
+                        <MenuItem fx:id="addSubjectItem" mnemonicParsing="false" onAction="#addSubject" text="Añadir" />
                         <MenuItem mnemonicParsing="false" text="Modificar" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Eliminar" />
@@ -25,7 +25,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Alumno">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Añadir" />
+                        <MenuItem fx:id="addStudentsItem" mnemonicParsing="false" onAction="#addStudent" text="Añadir" />
                         <MenuItem mnemonicParsing="false" text="Modificar" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Eliminar" />
