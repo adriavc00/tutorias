@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,10 +16,9 @@ import javafx.scene.text.Text;
 /**
  * FXML Controller class
  *
- * @author lipez
+ * @author ADRIA - LP
  */
-public class FXMLDocumentController implements Initializable {
-
+public class FXMLLoginController implements Initializable {
     @FXML
     private TextField texto_usuario;
     @FXML
@@ -31,10 +30,10 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void pulsadoIniciar(ActionEvent event) {
     }
-    
+
 }
