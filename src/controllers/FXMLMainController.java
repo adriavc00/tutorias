@@ -12,9 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -36,13 +38,20 @@ public class FXMLMainController implements Initializable {
     private MenuItem modifyStudentItem;
     @FXML
     private MenuItem deleteStudentItem;
+    @FXML
+    private BorderPane mainPane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLGridTimeSlot.fxml"));
+            Node timeSlot = customLoader.load();
+            mainPane.setCenter(timeSlot);
+        } catch (IOException e) {
+        }
     }
 
     @FXML
