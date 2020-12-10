@@ -1,9 +1,11 @@
+package controllers;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +18,7 @@ import javafx.fxml.Initializable;
  *
  * @author lipez
  */
-public class FXMLAddStudentController implements Initializable {
+public class FXMLAddSubjectController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -24,14 +26,14 @@ public class FXMLAddStudentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }    
 
     @FXML
-    private void addStudent(ActionEvent event) {
+    private void addSubject(ActionEvent event) {
     }
 
     @FXML
     private void cancel(ActionEvent event) {
     }
-
+    
 }

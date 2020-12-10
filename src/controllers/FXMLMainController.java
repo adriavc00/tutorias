@@ -56,7 +56,7 @@ public class FXMLMainController implements Initializable {
         stage.setTitle("Añadir asignatura");
         stage.setScene(scene);
         stage.showAndWait();
-        FXMLaddSubjectController controller = customLoader.getController();
+        FXMLAddSubjectController controller = customLoader.getController();
         // TODO: Functionality
     }
 
@@ -71,7 +71,7 @@ public class FXMLMainController implements Initializable {
         stage.setTitle("Añadir alumno");
         stage.setScene(scene);
         stage.showAndWait();
-        FXMLaddStudentController controller = customLoader.getController();
+        FXMLAddStudentController controller = customLoader.getController();
     }
 
     @FXML
