@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -17,6 +19,8 @@ import javafx.fxml.Initializable;
  * @author lipez
  */
 public class FXMLAddStudentController implements Initializable {
+    @FXML
+    private Button cancelButton;
 
     /**
      * Initializes the controller class.
@@ -32,6 +36,7 @@ public class FXMLAddStudentController implements Initializable {
 
     @FXML
     private void cancel(ActionEvent event) {
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
 }
