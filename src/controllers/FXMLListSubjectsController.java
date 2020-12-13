@@ -37,6 +37,7 @@ public class FXMLListSubjectsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         deleteSubject.setDisable(true);
+        
     }    
 
     @FXML
