@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -24,7 +18,7 @@
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
-                <TextField alignment="CENTER" />
+                <TextField fx:id="name" alignment="CENTER" />
             </children>
             <VBox.margin>
                 <Insets left="25.0" right="25.0" />
@@ -33,7 +27,7 @@
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos: " />
-                <TextField />
+                <TextField fx:id="surnames" />
             </children>
             <VBox.margin>
                 <Insets left="25.0" right="25.0" />
@@ -42,7 +36,7 @@
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
-                <TextField />
+                <TextField fx:id="email" />
             </children>
             <VBox.margin>
                 <Insets left="25.0" right="25.0" />
@@ -50,7 +44,7 @@
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#addStudent" text="Añadir" />
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#addStudent" text="Añadir" />
                 <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancelar" />
             </children>
             <VBox.margin>

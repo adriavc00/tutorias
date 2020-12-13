@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Asignatura;
@@ -27,12 +28,14 @@ import modelo.Tutorias;
  * @author lipez
  */
 public class FXMLListSubjectsController implements Initializable {
-    private ObservableList<Asignatura> asignaturas = null;
+    private ObservableList<Asignatura> subjects = null;
 
     @FXML
     private Button addSubject;
     @FXML
     private Button deleteSubject;
+    @FXML
+    private ListView<Asignatura> subjectList;
 
     /**
      * Initializes the controller class.
@@ -40,14 +43,11 @@ public class FXMLListSubjectsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         deleteSubject.setDisable(true);
-        try {
-            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
-            FXMLMainController controller = customLoader.getController();
-            Tutorias misTutorias = controller.getTutorias();
-            asignaturas = misTutorias.getAsignaturas();
-        } catch (Exception e) {
-        }
-
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+        FXMLMainController controller = customLoader.getController();
+        Tutorias misTutorias = controller.getTutorias();
+        subjects = misTutorias.getAsignaturas();
+        subjectList.setItems(subjects);
     }
 
     @FXML
