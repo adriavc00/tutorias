@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,13 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -27,6 +24,8 @@ import javafx.stage.Stage;
  * @author lipez
  */
 public class FXMLMainController implements Initializable {
+    private Tutorias misTutorias;
+
     @FXML
     private BorderPane mainPane;
     @FXML
@@ -41,6 +40,8 @@ public class FXMLMainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        misTutorias = AccesoBD.getInstance().getTutorias();
+
         try {
             FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
             Node tutorias = customLoader.load();
@@ -50,85 +51,10 @@ public class FXMLMainController implements Initializable {
         }
     }
 
-    /*
-    private void addSubject(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddSubject.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Añadir asignatura");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLAddSubjectController controller = customLoader.getController();
-        // TODO: Functionality
+    public Tutorias getTutorias() {
+        return misTutorias;
     }
 
-    private void addStudent(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddStudent.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Añadir alumno");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLAddStudentController controller = customLoader.getController();
-    }
-
-    private void modifySubject(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Lista de asignaturas");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLListSubjectsController controller = customLoader.getController();
-    }
-
-    private void deleteSubject(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Lista de asignaturas");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLListSubjectsController controller = customLoader.getController();
-    }
-
-    private void modifyStudent(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Lista de asignaturas");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLListStudentsController controller = customLoader.getController();
-    }
-
-    private void deleteStudent(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
-        Parent root = customLoader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Lista de alumnos");
-        stage.setScene(scene);
-        stage.showAndWait();
-        FXMLListStudentsController controller = customLoader.getController();
-    } */
     @FXML
     private void tutoriasPressed(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));

@@ -8,6 +8,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Asignatura;
+import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
  * @author lipez
  */
 public class FXMLListSubjectsController implements Initializable {
+    private ObservableList<Asignatura> asignaturas = null;
 
     @FXML
     private Button addSubject;
@@ -35,10 +39,16 @@ public class FXMLListSubjectsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         deleteSubject.setDisable(true);
-        
-    }    
+        try {
+            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+            FXMLMainController controller = customLoader.getController();
+            Tutorias misTutorias = controller.getTutorias();
+            asignaturas = misTutorias.getAsignaturas();
+        } catch (Exception e) {
+        }
+
+    }
 
     @FXML
     private void add(ActionEvent event) throws IOException {
@@ -57,5 +67,5 @@ public class FXMLListSubjectsController implements Initializable {
     @FXML
     private void delete(ActionEvent event) {
     }
-    
+
 }
