@@ -51,7 +51,7 @@ public class FXMLListSubjectsController implements Initializable {
         stage.setTitle("Añadir asignatura");
         stage.setScene(scene);
         stage.showAndWait();
-        FXMLAddSubjectController controller = customLoader.getController();
+        FXMLNewSubjectController controller = customLoader.getController();
     }
 
     @FXML

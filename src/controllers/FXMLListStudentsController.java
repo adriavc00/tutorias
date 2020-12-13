@@ -50,7 +50,7 @@ public class FXMLListStudentsController implements Initializable {
         stage.setTitle("Añadir alumno");
         stage.setScene(scene);
         stage.showAndWait();
-        FXMLAddStudentController controller = customLoader.getController();
+        FXMLNewStudentController controller = customLoader.getController();
     }
 
     @FXML
