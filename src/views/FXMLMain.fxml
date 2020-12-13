@@ -2,64 +2,20 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
-    <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="Asignatura">
-                    <items>
-                        <MenuItem fx:id="addSubjectItem" mnemonicParsing="false" onAction="#addSubject" text="Añadir" />
-                        <MenuItem fx:id="modifySubjectItem" mnemonicParsing="false" onAction="#modifySubject" text="Modificar" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="deleteSubjectItem" mnemonicParsing="false" onAction="#deleteSubject" text="Eliminar" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Alumno">
-                    <items>
-                        <MenuItem fx:id="addStudentsItem" mnemonicParsing="false" onAction="#addStudent" text="Añadir" />
-                        <MenuItem fx:id="modifyStudentItem" mnemonicParsing="false" onAction="#modifyStudent" text="Modificar" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="deleteStudentItem" mnemonicParsing="false" onAction="#deleteStudent" text="Eliminar" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </top>
-    <right>
-        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-            <children>
-                <Label text="Tutorías">
-                    <font>
-                        <Font size="25.0" />
-                    </font>
-                </Label>
-                <VBox alignment="CENTER" spacing="30.0" VBox.vgrow="ALWAYS">
-                    <children>
-                        <Button layoutX="51.0" layoutY="67.0" mnemonicParsing="false" text="Registrar" textAlignment="CENTER" />
-                        <Button mnemonicParsing="false" text="Anular" textAlignment="CENTER" />
-                        <Button mnemonicParsing="false" text="Marcar como no registradas" textAlignment="CENTER" wrapText="true" />
-                        <Button mnemonicParsing="false" text="Añadir comentario" textAlignment="CENTER" />
-                    </children>
-                </VBox>
-            </children>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <padding>
-                <Insets right="7.0" top="5.0" />
-            </padding>
-        </VBox>
-    </right>
-    <center>
-        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-    </center>
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="tutoriasButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#tutoriasPressed" prefHeight="55.0" prefWidth="110.0" text="Tutorias" />
+            <Button fx:id="subjectsButton" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#subjectsPressed" prefHeight="55.0" prefWidth="110.0" text="Asignaturas" />
+            <Button fx:id="studentsButton" layoutX="75.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#studentsPressed" prefHeight="55.0" prefWidth="110.0" text="Alumnos" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </top>
 </BorderPane>

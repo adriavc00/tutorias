@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -27,19 +28,13 @@ import javafx.stage.Stage;
  */
 public class FXMLMainController implements Initializable {
     @FXML
-    private MenuItem addSubjectItem;
-    @FXML
-    private MenuItem addStudentsItem;
-    @FXML
-    private MenuItem modifySubjectItem;
-    @FXML
-    private MenuItem deleteSubjectItem;
-    @FXML
-    private MenuItem modifyStudentItem;
-    @FXML
-    private MenuItem deleteStudentItem;
-    @FXML
     private BorderPane mainPane;
+    @FXML
+    private Button tutoriasButton;
+    @FXML
+    private Button subjectsButton;
+    @FXML
+    private Button studentsButton;
 
     /**
      * Initializes the controller class.
@@ -47,14 +42,15 @@ public class FXMLMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLGridTimeSlot.fxml"));
-            Node timeSlot = customLoader.load();
-            mainPane.setCenter(timeSlot);
+            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
+            Node tutorias = customLoader.load();
+            mainPane.setCenter(tutorias);
+            this.tutoriasButton.setDisable(true);
         } catch (IOException e) {
         }
     }
 
-    @FXML
+    /*
     private void addSubject(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddSubject.fxml"));
         Parent root = customLoader.load();
@@ -69,7 +65,6 @@ public class FXMLMainController implements Initializable {
         // TODO: Functionality
     }
 
-    @FXML
     private void addStudent(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddStudent.fxml"));
         Parent root = customLoader.load();
@@ -83,7 +78,6 @@ public class FXMLMainController implements Initializable {
         FXMLAddStudentController controller = customLoader.getController();
     }
 
-    @FXML
     private void modifySubject(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
         Parent root = customLoader.load();
@@ -97,7 +91,6 @@ public class FXMLMainController implements Initializable {
         FXMLListSubjectsController controller = customLoader.getController();
     }
 
-    @FXML
     private void deleteSubject(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
         Parent root = customLoader.load();
@@ -111,7 +104,6 @@ public class FXMLMainController implements Initializable {
         FXMLListSubjectsController controller = customLoader.getController();
     }
 
-    @FXML
     private void modifyStudent(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
         Parent root = customLoader.load();
@@ -125,7 +117,6 @@ public class FXMLMainController implements Initializable {
         FXMLListStudentsController controller = customLoader.getController();
     }
 
-    @FXML
     private void deleteStudent(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
         Parent root = customLoader.load();
@@ -137,6 +128,34 @@ public class FXMLMainController implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
         FXMLListStudentsController controller = customLoader.getController();
+    } */
+    @FXML
+    private void tutoriasPressed(ActionEvent event) throws IOException {
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
+        Node tutorias = customLoader.load();
+        mainPane.setCenter(tutorias);
+        this.tutoriasButton.setDisable(true);
+        this.subjectsButton.setDisable(false);
+        this.studentsButton.setDisable(false);
     }
 
+    @FXML
+    private void subjectsPressed(ActionEvent event) throws IOException {
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
+        Node tutorias = customLoader.load();
+        mainPane.setCenter(tutorias);
+        this.tutoriasButton.setDisable(false);
+        this.subjectsButton.setDisable(true);
+        this.studentsButton.setDisable(false);
+    }
+
+    @FXML
+    private void studentsPressed(ActionEvent event) throws IOException {
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
+        Node tutorias = customLoader.load();
+        mainPane.setCenter(tutorias);
+        this.tutoriasButton.setDisable(false);
+        this.subjectsButton.setDisable(false);
+        this.studentsButton.setDisable(true);
+    }
 }
