@@ -7,11 +7,18 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import modelo.Alumno;
+import modelo.Asignatura;
+import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -21,6 +28,14 @@ import javafx.stage.Stage;
 public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private Button cancelButton;
+    ObservableList<Alumno> students;
+    ObservableList<Asignatura> subjects;
+    @FXML
+    private ListView<Alumno> listViewStudents;
+    @FXML
+    private ChoiceBox<Alumno> choiceBoxStudents;
+    @FXML
+    private ChoiceBox<Asignatura> choiceBoxSubjects;
 
     /**
      * Initializes the controller class.
@@ -28,11 +43,18 @@ public class FXMLAddTutoriaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        /*FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+        FXMLMainController controller = customLoader.getController();
+        Tutorias misTutorias = controller.getTutorias();
+        
+        
+        //DA ERROR DE NULLPOINTEREXCEPTION, ARREGLAR
+        subjects = misTutorias.getAsignaturas();
+        choiceBoxSubjects.setItems(subjects);
+        students = misTutorias.getAlumnosTutorizados();
+        choiceBoxStudents.setItems(students);*/
     }
 
-    @FXML
-    private void addTutoria(ActionEvent event) {
-    }
 
     @FXML
     private void cancel(ActionEvent event) {
