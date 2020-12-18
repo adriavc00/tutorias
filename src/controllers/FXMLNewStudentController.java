@@ -58,6 +58,7 @@ public class FXMLNewStudentController implements Initializable {
     private void addStudent(ActionEvent event) {
         pressedOk = true;
         student = new Alumno(name.getText(), surnames.getText(), email.getText());
+        ((Stage) addButton.getScene().getWindow()).close();
     }
 
     @FXML

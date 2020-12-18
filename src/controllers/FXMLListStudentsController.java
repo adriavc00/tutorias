@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +29,8 @@ import modelo.Tutorias;
  * @author lipez
  */
 public class FXMLListStudentsController implements Initializable {
-    private ObservableList<Alumno> students = null;
+    private AccesoBD BDaccess;
+    private ObservableList<Alumno> students;
 
     @FXML
     private Button addStudent;
@@ -43,10 +45,8 @@ public class FXMLListStudentsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         deleteStudent.setDisable(true);
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
-        FXMLMainController controller = customLoader.getController();
-        Tutorias misTutorias = controller.getTutorias();
-        students = misTutorias.getAlumnosTutorizados();
+        BDaccess = AccesoBD.getInstance();
+        students = BDaccess.getTutorias().getAlumnosTutorizados();
         studentsList.setItems(students);
     }
 
@@ -62,6 +62,11 @@ public class FXMLListStudentsController implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
         FXMLNewStudentController controller = customLoader.getController();
+
+        if (controller.pressedOk()) {
+            students.add(controller.getNewStudent());
+            BDaccess.salvar();
+        }
     }
 
     @FXML

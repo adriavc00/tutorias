@@ -29,6 +29,7 @@ import modelo.Tutorias;
  * @author lipez
  */
 public class FXMLListSubjectsController implements Initializable {
+    private AccesoBD BDaccess;
     private ObservableList<Asignatura> subjects = null;
 
     @FXML
@@ -44,8 +45,8 @@ public class FXMLListSubjectsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         deleteSubject.setDisable(true);
-       // FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
-       // FXMLMainController controller = customLoader.getController();
+        // FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+        // FXMLMainController controller = customLoader.getController();
         Tutorias misTutorias = AccesoBD.getInstance().getTutorias();
         subjects = misTutorias.getAsignaturas();
         subjectList.setItems(subjects);
@@ -63,6 +64,11 @@ public class FXMLListSubjectsController implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
         FXMLNewSubjectController controller = customLoader.getController();
+
+        if (controller.pressedOk()) {
+            subjects.add(controller.getNewSubject());
+            BDaccess.salvar();
+        }
     }
 
     @FXML

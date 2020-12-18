@@ -24,7 +24,6 @@ import modelo.Tutorias;
  * @author lipez
  */
 public class FXMLMainController implements Initializable {
-    private Tutorias misTutorias;
 
     @FXML
     private BorderPane mainPane;
@@ -40,8 +39,6 @@ public class FXMLMainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        misTutorias = AccesoBD.getInstance().getTutorias();
-
         try {
             FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
             Node tutorias = customLoader.load();
@@ -51,15 +48,12 @@ public class FXMLMainController implements Initializable {
         }
     }
 
-    public Tutorias getTutorias() {
-        return misTutorias;
-    }
-
     @FXML
     private void tutoriasPressed(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
         Node tutorias = customLoader.load();
-        ((FXMLListSubjectsController)customLoader.getController()).setMain(this); //Pasar controller a otro
+        // La linea siguiente da error.
+        // ((FXMLListSubjectsController) customLoader.getController()).setMain(this); //Pasar controller a otro
         mainPane.setCenter(tutorias);
         this.tutoriasButton.setDisable(true);
         this.subjectsButton.setDisable(false);
