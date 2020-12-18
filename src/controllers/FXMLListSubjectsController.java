@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,9 +44,9 @@ public class FXMLListSubjectsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         deleteSubject.setDisable(true);
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
-        FXMLMainController controller = customLoader.getController();
-        Tutorias misTutorias = controller.getTutorias();
+       // FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
+       // FXMLMainController controller = customLoader.getController();
+        Tutorias misTutorias = AccesoBD.getInstance().getTutorias();
         subjects = misTutorias.getAsignaturas();
         subjectList.setItems(subjects);
     }
@@ -66,6 +67,10 @@ public class FXMLListSubjectsController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
+    }
+
+    void setMain(FXMLMainController aThis) {
+        //para pasar parámetros otros controladores
     }
 
 }

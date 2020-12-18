@@ -59,6 +59,7 @@ public class FXMLMainController implements Initializable {
     private void tutoriasPressed(ActionEvent event) throws IOException {
         FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
         Node tutorias = customLoader.load();
+        ((FXMLListSubjectsController)customLoader.getController()).setMain(this); //Pasar controller a otro
         mainPane.setCenter(tutorias);
         this.tutoriasButton.setDisable(true);
         this.subjectsButton.setDisable(false);
