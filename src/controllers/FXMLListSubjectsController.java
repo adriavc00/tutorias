@@ -47,8 +47,8 @@ public class FXMLListSubjectsController implements Initializable {
         deleteSubject.setDisable(true);
         // FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
         // FXMLMainController controller = customLoader.getController();
-        Tutorias misTutorias = AccesoBD.getInstance().getTutorias();
-        subjects = misTutorias.getAsignaturas();
+        BDaccess = AccesoBD.getInstance();
+        subjects = BDaccess.getTutorias().getAsignaturas();
         subjectList.setItems(subjects);
     }
 
