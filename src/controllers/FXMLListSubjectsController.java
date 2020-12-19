@@ -9,6 +9,7 @@ import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,6 @@ import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Asignatura;
-import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -44,9 +44,8 @@ public class FXMLListSubjectsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        deleteSubject.setDisable(true);
-        // FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLMain.fxml"));
-        // FXMLMainController controller = customLoader.getController();
+        deleteSubject.disableProperty().bind(Bindings.lessThan(subjectList.getSelectionModel().
+            selectedIndexProperty(), 0));
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
         subjectList.setItems(subjects);
@@ -54,7 +53,8 @@ public class FXMLListSubjectsController implements Initializable {
 
     @FXML
     private void add(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddSubject.fxml"));
+        FXMLLoader customLoader = new FXMLLoader(getClass().
+            getResource("/views/FXMLAddSubject.fxml"));
         Parent root = customLoader.load();
 
         Scene scene = new Scene(root);
@@ -73,6 +73,8 @@ public class FXMLListSubjectsController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
+        subjects.remove(subjectList.getSelectionModel().getSelectedIndex());
+        BDaccess.salvar();
     }
 
     void setMain(FXMLMainController aThis) {

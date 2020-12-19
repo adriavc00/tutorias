@@ -61,7 +61,7 @@ public class FXMLGridTimeSlotController implements Initializable {
     private final Duration slotLength = Duration.ofMinutes(90);
     private final LocalTime lastSlotStart = LocalTime.of(21, 0);
 
-    // se puede cambiar por codigo la pseudoclase activa de un nodo    
+    // se puede cambiar por codigo la pseudoclase activa de un nodo
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSolt>>
@@ -73,14 +73,13 @@ public class FXMLGridTimeSlotController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // dejo los label de las columnas en un list<> para usarlo en un bucle
-        diasSemana= new ArrayList<>();
+        diasSemana = new ArrayList<>();
         diasSemana.add(lunesCol);
         diasSemana.add(martesCol);
-        diasSemana.add( miercoles);
+        diasSemana.add(miercoles);
         diasSemana.add(juevesCol);
-        diasSemana.add( viernesCol);
+        diasSemana.add(viernesCol);
 
-      
         timeSlotSelected = new SimpleObjectProperty<>();
 
         //---------------------------------------------------------------------
@@ -106,8 +105,8 @@ public class FXMLGridTimeSlotController implements Initializable {
                 slotSelected.setText("");
             } else {
                 slotSelected.setText(c.getDate().format(dayFormatter)
-                        + "-"
-                        + c.getStart().format(timeFormatter));
+                                         + "-"
+                                         + c.getStart().format(timeFormatter));
             }
         });
     }
@@ -116,7 +115,7 @@ public class FXMLGridTimeSlotController implements Initializable {
         //actualizamos la seleccion
         timeSlotSelected.setValue(null);
 
-        //--------------------------------------------        
+        //--------------------------------------------
         //borramos los SlotTime del grid
         ObservableList<Node> children = grid.getChildren();
         for (List<TimeSlot> dias : timeSlots) {
@@ -132,20 +131,20 @@ public class FXMLGridTimeSlotController implements Initializable {
 
         //---------------------------------------------------------------------------
         // recorremos para cada Columna y creamos para cada slot
-
         LocalDate startOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(4);
         int diaIndex = 1;
         for (LocalDate dia = startOfWeek; !dia.isAfter(endOfWeek); dia = dia.plusDays(1)) {
-            diasSemana.get(diaIndex - 1).setText(dia.getDayOfWeek()+System.lineSeparator()+dia.toString());
+            diasSemana.get(diaIndex - 1).setText(dia.getDayOfWeek() + System.lineSeparator() + dia.
+                toString());
             List<TimeSlot> slotsDia = new ArrayList<TimeSlot>();
             timeSlots.add(slotsDia);
             //----------------------------------------------------------------------------------
             // desde la hora de inicio y hasta la hora de fin creamos slotTime segun la duracion
             int slotIndex = 1;
             for (LocalDateTime startTime = dia.atTime(firstSlotStart);
-                    !startTime.isAfter(dia.atTime(lastSlotStart));
-                    startTime = startTime.plus(slotLength)) {
+                 !startTime.isAfter(dia.atTime(lastSlotStart));
+                 startTime = startTime.plus(slotLength)) {
 
                 //---------------------------------------------------------------------------------------
                 // creamos el SlotTime, lo anyadimos a la lista de la columna y asignamos sus manejadores
@@ -164,16 +163,15 @@ public class FXMLGridTimeSlotController implements Initializable {
 
     private void registerHandlers(TimeSlot timeSlot) {
 
-
         timeSlot.getView().setOnMousePressed((MouseEvent event) -> {
             //---------------------------------------------slot----------------------------
             //solamente puede estar seleccionado un slot dentro de la lista de slot
             //sin el bucle exterior se podria seleccionar un SlotTime por cada columna
             timeSlots.forEach((dia) -> {
-                dia.forEach(slot -> {slot.setSelected(slot== timeSlot);
+                dia.forEach(slot -> {
+                    slot.setSelected(slot == timeSlot);
                 });
             });
-           
 
             //----------------------------------------------------------------
             //actualizamos el label Dia-Hora-Pista, esto es ad hoc,  para mi diseño
@@ -185,8 +183,10 @@ public class FXMLGridTimeSlotController implements Initializable {
                 alerta.setTitle("SlotTime");
                 alerta.setHeaderText("Confirma la selecció");
                 alerta.setContentText("Has seleccionat: "
-                        + timeSlot.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)) + ", "
-                        + timeSlot.getTime().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+                                          + timeSlot.getDate().format(DateTimeFormatter.
+                        ofLocalizedDate(FormatStyle.SHORT)) + ", "
+                                          + timeSlot.getTime().format(DateTimeFormatter.
+                        ofLocalizedTime(FormatStyle.SHORT)));
                 Optional<ButtonType> result = alerta.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     ObservableList<String> styles = timeSlot.getView().getStyleClass();
@@ -231,7 +231,7 @@ public class FXMLGridTimeSlotController implements Initializable {
             // ---------------------------------------------------------------
             // de esta manera cambiamos la apariencia del TimeSlot cuando los seleccionamos
             selectedProperty().addListener((obs, wasSelected, isSelected)
-                    -> view.pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, isSelected));
+                -> view.pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, isSelected));
 
         }
 

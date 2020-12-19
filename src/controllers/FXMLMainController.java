@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -40,7 +38,8 @@ public class FXMLMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLTutorias.fxml"));
+            FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
+                "/views/FXMLTutorias.fxml"));
             Node tutorias = customLoader.load();
             mainPane.setCenter(tutorias);
             this.tutoriasButton.setDisable(true);
@@ -62,7 +61,8 @@ public class FXMLMainController implements Initializable {
 
     @FXML
     private void subjectsPressed(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListSubjects.fxml"));
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
+            "/views/FXMLListSubjects.fxml"));
         Node tutorias = customLoader.load();
         mainPane.setCenter(tutorias);
         this.tutoriasButton.setDisable(false);
@@ -72,7 +72,8 @@ public class FXMLMainController implements Initializable {
 
     @FXML
     private void studentsPressed(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLListStudents.fxml"));
+        FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
+            "/views/FXMLListStudents.fxml"));
         Node tutorias = customLoader.load();
         mainPane.setCenter(tutorias);
         this.tutoriasButton.setDisable(false);

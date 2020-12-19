@@ -42,7 +42,8 @@ public class FXMLTutoriasController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLGridTimeSlot.fxml"));
+            FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
+                "/views/FXMLGridTimeSlot.fxml"));
             Node timeSlot = customLoader.load();
             ObservableList<Node> children = mainPane.getChildren();
             children.add(timeSlot);
@@ -52,7 +53,8 @@ public class FXMLTutoriasController implements Initializable {
 
     @FXML
     private void registerPressed(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddTutoria.fxml"));
+        FXMLLoader customLoader = new FXMLLoader(getClass().
+            getResource("/views/FXMLAddTutoria.fxml"));
         Parent root = customLoader.load();
 
         Scene scene = new Scene(root);

@@ -42,8 +42,9 @@ public class FXMLNewStudentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         addButton.disableProperty().bind(
-            Bindings.or(name.textProperty().isEmpty(), Bindings.or(surnames.textProperty().isEmpty(),
-                email.textProperty().isEmpty())));
+            Bindings.or(name.textProperty().isEmpty(), Bindings.
+                        or(surnames.textProperty().isEmpty(),
+                           email.textProperty().isEmpty())));
     }
 
     public boolean pressedOk() {

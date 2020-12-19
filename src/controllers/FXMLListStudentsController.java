@@ -9,6 +9,7 @@ import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,6 @@ import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Alumno;
-import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -44,7 +44,8 @@ public class FXMLListStudentsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        deleteStudent.setDisable(true);
+        deleteStudent.disableProperty().bind(Bindings.lessThan(studentsList.getSelectionModel().
+            selectedIndexProperty(), 0));
         BDaccess = AccesoBD.getInstance();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
         studentsList.setItems(students);
@@ -52,7 +53,8 @@ public class FXMLListStudentsController implements Initializable {
 
     @FXML
     private void add(ActionEvent event) throws IOException {
-        FXMLLoader customLoader = new FXMLLoader(getClass().getResource("/views/FXMLAddStudent.fxml"));
+        FXMLLoader customLoader = new FXMLLoader(getClass().
+            getResource("/views/FXMLAddStudent.fxml"));
         Parent root = customLoader.load();
 
         Scene scene = new Scene(root);
@@ -71,6 +73,8 @@ public class FXMLListStudentsController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
+        students.remove(studentsList.getSelectionModel().getSelectedIndex());
+        BDaccess.salvar();
     }
 
 }
