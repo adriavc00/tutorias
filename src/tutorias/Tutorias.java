@@ -20,25 +20,27 @@ import modelo.Asignatura;
  * @author ADRIA - LP
  */
 public class Tutorias extends Application {
-    
+
     private ObservableList<Alumno> students;
     private ObservableList<Asignatura> subjects;
     private AccesoBD BDaccess;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
-        
-        if (subjects.isEmpty()) {
-            Asignatura tfg = new Asignatura("TFG", "Trabajo Fin de Grado");
-            Asignatura tfm = new Asignatura("TFM", "Trabajo Fin de Master");
-            subjects.add(tfg);
-            subjects.add(tfm);
+
+        Asignatura tfg = new Asignatura("TFG", "Trabajo Fin de Grado");
+        Asignatura tfm = new Asignatura("TFM", "Trabajo Fin de Master");
+
+        if (!subjects.get(0).getCodigo().equals(tfg.getCodigo())
+                || !subjects.get(1).getCodigo().equals(tfm.getCodigo())) {
+            subjects.add(0, tfg);
+            subjects.add(1, tfm);
             BDaccess.salvar();
         }
-        
+
         //ESTO ES PARA PRUEBAS
         students = BDaccess.getTutorias().getAlumnosTutorizados();
         if (students.isEmpty()) {
@@ -48,7 +50,7 @@ public class Tutorias extends Application {
             students.add(a);
             BDaccess.salvar();
         }
-        
+
         Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLLogin.fxml"));
 
         Scene scene = new Scene(root);
@@ -58,7 +60,7 @@ public class Tutorias extends Application {
         stage.setMinWidth(650);
         stage.setTitle("Iniciar sesión");
         stage.show();
-               
+
     }
 
     /**
