@@ -18,8 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Alumno;
@@ -38,29 +38,39 @@ public class FXMLListStudentsController implements Initializable {
     @FXML
     private Button deleteStudent;
     @FXML
-    private ListView<Alumno> studentsList;
+    private TableView<Alumno> studentsTable;
+    @FXML
+    private TableColumn<Alumno, String> nameColumn;
+    @FXML
+    private TableColumn<Alumno, String> surnameColumn;
+    @FXML
+    private TableColumn<Alumno, String> emailColumn;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        deleteStudent.disableProperty().bind(Bindings.lessThan(studentsList.getSelectionModel().
+        deleteStudent.disableProperty().bind(Bindings.lessThan(studentsTable.getSelectionModel().
             selectedIndexProperty(), 0));
         BDaccess = AccesoBD.getInstance();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
-        studentsList.setItems(students);
-        studentsList.setCellFactory((cell) -> new ListCell<Alumno>() {
-            @Override
-            protected void updateItem(Alumno item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.getNombre() + " " + item.getApellidos());
-                }
-            }
-        });
+        studentsTable.setItems(students);
+        nameColumn.setCellValueFactory((cellData) -> cellData.getValue().nombreProperty());
+        surnameColumn.setCellValueFactory((cellData) -> cellData.getValue().apellidosProperty());
+        emailColumn.setCellValueFactory((cellData) -> cellData.getValue().emailProperty());
+        //studentsList.setItems(students);
+        //studentsList.setCellFactory((cell) -> new ListCell<Alumno>() {
+        //    @Override
+        //    protected void updateItem(Alumno item, boolean empty) {
+        //        super.updateItem(item, empty);
+        //        if (empty || item == null) {
+        //            setText("");
+        //        } else {
+        //            setText(item.getNombre() + " " + item.getApellidos());
+        //        }
+        //    }
+        //});
     }
 
     @FXML
@@ -85,7 +95,7 @@ public class FXMLListStudentsController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        students.remove(studentsList.getSelectionModel().getSelectedIndex());
+        students.remove(studentsTable.getSelectionModel().getSelectedIndex());
         BDaccess.salvar();
     }
 

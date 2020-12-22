@@ -8,12 +8,14 @@ package controllers;
 import accesoBD.AccesoBD;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import modelo.Alumno;
@@ -54,7 +56,7 @@ public class FXMLAddTutoriaController implements Initializable {
          *
          * //DA ERROR DE NULLPOINTEREXCEPTION, ARREGLAR subjects = misTutorias.getAsignaturas();
          * choiceBoxSubjects.setItems(subjects); students = misTutorias.getAlumnosTutorizados();
-        choiceBoxStudents.setItems(students);
+         * choiceBoxStudents.setItems(students);
          */
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
@@ -62,9 +64,19 @@ public class FXMLAddTutoriaController implements Initializable {
         //subjectList.setItems(subjects);
         choiceBoxSubjects.setItems(subjects);
         choiceBoxStudents.setItems(students);
-        
+        studentsSelected = FXCollections.observableArrayList();
         listViewStudents.setItems(studentsSelected);
-        
+        listViewStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
+            @Override
+            protected void updateItem(Alumno item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    setText(item.getNombre() + " " + item.getApellidos());
+                }
+            }
+        });
     }
 
     @FXML
