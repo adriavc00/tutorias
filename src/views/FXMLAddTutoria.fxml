@@ -28,8 +28,9 @@
          <children>
             <GridPane hgap="10.0" prefHeight="291.0" prefWidth="579.0">
               <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="282.6666615804037" minWidth="10.0" prefWidth="282.6666615804037" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="180.66661834716797" minWidth="10.0" prefWidth="79.00004069010419" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="282.6666615804037" minWidth="10.0" prefWidth="157.66666666666666" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="180.66661834716797" minWidth="10.0" prefWidth="101.66666666666666" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="180.66661834716797" minWidth="10.0" prefWidth="105.99995930989581" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.33329264322913" minWidth="10.0" prefWidth="198.33329264322913" />
               </columnConstraints>
               <rowConstraints>
@@ -44,18 +45,19 @@
                <children>
                   <Label alignment="TOP_LEFT" text="Asignatura:" />
                   <Label text="Alumnos:" GridPane.rowIndex="4" />
-                  <Label text="Fecha:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Hora de inicio:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Duración:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label prefHeight="17.0" prefWidth="69.0" text="Anotaciones:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="Fecha:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label text="Hora de inicio:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Label text="Duración:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label prefHeight="17.0" prefWidth="69.0" text="Anotaciones:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ChoiceBox fx:id="choiceBoxSubjects" prefWidth="150.0" GridPane.rowIndex="1" />
-                  <TextField prefHeight="25.0" prefWidth="156.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField prefHeight="25.0" prefWidth="156.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label text="Añadir alumno:" GridPane.rowIndex="2" />
                   <ListView fx:id="listViewStudents" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="282.0" GridPane.rowIndex="5" GridPane.rowSpan="2" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="283.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="283.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
                   <ChoiceBox fx:id="choiceBoxStudents" prefWidth="150.0" GridPane.rowIndex="3" />
+                  <Button fx:id="addStudent" mnemonicParsing="false" onAction="#pressedAddStudent" text="Añadir" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>

@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import accesoBD.AccesoBD;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -26,14 +27,18 @@ import modelo.Asignatura;
 public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private Button cancelButton;
-    ObservableList<Alumno> students;
-    ObservableList<Asignatura> subjects;
+    private ObservableList<Alumno> students;
+    private ObservableList<Asignatura> subjects;
+    private AccesoBD BDaccess;
+    private ObservableList<Alumno> studentsSelected;
     @FXML
     private ListView<Alumno> listViewStudents;
     @FXML
     private ChoiceBox<Alumno> choiceBoxStudents;
     @FXML
     private ChoiceBox<Asignatura> choiceBoxSubjects;
+    @FXML
+    private Button addStudent;
 
     /**
      * Initializes the controller class.
@@ -51,11 +56,29 @@ public class FXMLAddTutoriaController implements Initializable {
          * choiceBoxSubjects.setItems(subjects); students = misTutorias.getAlumnosTutorizados();
         choiceBoxStudents.setItems(students);
          */
+        BDaccess = AccesoBD.getInstance();
+        subjects = BDaccess.getTutorias().getAsignaturas();
+        students = BDaccess.getTutorias().getAlumnosTutorizados();
+        //subjectList.setItems(subjects);
+        choiceBoxSubjects.setItems(subjects);
+        choiceBoxStudents.setItems(students);
+        
+        listViewStudents.setItems(studentsSelected);
+        
     }
 
     @FXML
     private void cancel(ActionEvent event) {
         ((Stage) cancelButton.getScene().getWindow()).close();
+    }
+
+    @FXML
+    private void pressedAddStudent(ActionEvent event) {
+        Alumno selected = choiceBoxStudents.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            System.out.println(selected);
+            studentsSelected.add(selected);
+        }
     }
 
 }
