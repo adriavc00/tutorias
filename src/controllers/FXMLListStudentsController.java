@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,6 +50,17 @@ public class FXMLListStudentsController implements Initializable {
         BDaccess = AccesoBD.getInstance();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
         studentsList.setItems(students);
+        studentsList.setCellFactory((cell) -> new ListCell<Alumno>() {
+            @Override
+            protected void updateItem(Alumno item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    setText(item.getNombre() + " " + item.getApellidos());
+                }
+            }
+        });
     }
 
     @FXML
