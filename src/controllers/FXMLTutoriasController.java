@@ -40,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -74,9 +75,11 @@ public class FXMLTutoriasController implements Initializable {
     @FXML
     private Label slotSelected;
 
-    private final LocalTime firstSlotStart = LocalTime.of(8, 0);
+    private final LocalTime firstSlotStart = LocalTime.of(10, 0);
     private final Duration slotLength = Duration.ofMinutes(10);
-    private final LocalTime lastSlotStart = LocalTime.of(20, 0);
+    private final LocalTime lastSlotStart = LocalTime.of(17, 30);
+    private final int NUMBER_OF_SLOTS_PER_DAY = (lastSlotStart.toSecondOfDay()
+                                                     - firstSlotStart.toSecondOfDay()) / 600;
 
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
@@ -86,7 +89,7 @@ public class FXMLTutoriasController implements Initializable {
 
     private List<Label> diasSemana;
 
-    private class TimeSlot {
+    public class TimeSlot {
 
         private final LocalDateTime start;
         private final Duration duration;
@@ -148,8 +151,18 @@ public class FXMLTutoriasController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // creamos todas las filas necesarias para el dia.
-
+        //creamos los slots necesarios para un dia
+        LocalTime time = firstSlotStart;
+        for (int i = 1; i <= NUMBER_OF_SLOTS_PER_DAY; i++) {
+            String period = "";
+            period += time.toString();
+            period += " - ";
+            time = time.plusMinutes(10);
+            period += time.toString();
+            Label label = new Label(period);
+            label.setFont(Font.font(10));
+            grid.add(label, 0, i);
+        }
         // dejo los label de las columnas en un list<> para usarlo en un bucle
         diasSemana = new ArrayList<>();
         diasSemana.add(lunesCol);
