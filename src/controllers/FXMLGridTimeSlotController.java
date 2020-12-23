@@ -33,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -72,6 +73,12 @@ public class FXMLGridTimeSlotController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        /*añadir las filas que necesitamos
+        for (int i = 0; i < 57; i++) {
+            grid.addRow(0, new Text(""+i));
+        }*/
+        
         // dejo los label de las columnas en un list<> para usarlo en un bucle
         diasSemana = new ArrayList<>();
         diasSemana.add(lunesCol);

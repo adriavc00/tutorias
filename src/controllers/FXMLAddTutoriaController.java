@@ -22,10 +22,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
@@ -46,6 +50,8 @@ public class FXMLAddTutoriaController implements Initializable {
     private AccesoBD BDaccess;
     private ObservableList<Alumno> studentsSelected;
     private Asignatura subjectSelected;
+    private AccesoBD BDAccess;
+    private ObservableList<Tutoria> tutorias;
     @FXML
     private ListView<Alumno> listViewStudents;
     @FXML
@@ -59,7 +65,13 @@ public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private Slider sliderTime;
     @FXML
-    private TextField AnotacionesField;
+    private TextArea AnotacionesField;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private Spinner<Integer> hours;
+    @FXML
+    private Spinner<Integer> minutes;
 
     /**
      * Initializes the controller class.
@@ -69,6 +81,12 @@ public class FXMLAddTutoriaController implements Initializable {
         // TODO
         addStudent.disableProperty().bind(Bindings.lessThan(comboBoxStudents.getSelectionModel().
             selectedIndexProperty(), 0));
+        
+        /*addTutoriaButton.disableProperty().bind(Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
+            selectedIndexProperty(), 0), Bindings.isEmpty(listViewStudents.getItems())));
+//Bindings.isEmpty(studentsSelected)    
+//Bindings.isEmpty(listViewStudents.getItems())
+//, Bindings.equal(null, datePicker)*/
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
@@ -108,6 +126,18 @@ public class FXMLAddTutoriaController implements Initializable {
                 } else {
                     setText(item.getNombre() + " " + item.getApellidos());
                 }
+            }
+        });
+        comboBoxStudents.setConverter(new StringConverter<Alumno>() {
+            @Override
+            public String toString(Alumno object) {
+                String res = object.getNombre() + " " + object.getApellidos();
+                return res;
+            }
+
+            @Override
+            public Alumno fromString(String string) {
+                return null;
             }
         });
         studentsSelected = FXCollections.observableArrayList();
@@ -159,10 +189,14 @@ public class FXMLAddTutoriaController implements Initializable {
         tutoriaNew.setEstado(Tutoria.EstadoTutoria.PEDIDA);
 
         //FECHA
-        tutoriaNew.setFecha(LocalDate.MAX);
+        
+        tutoriaNew.setFecha(datePicker.getValue());
 
         //INICIO
-        tutoriaNew.setInicio(LocalTime.MAX);
+        int h = Integer.parseInt(hours.getValue().toString());
+        int m = Integer.parseInt(minutes.getValue().toString());
+        LocalTime initTime = LocalTime.of(h, m);
+        tutoriaNew.setInicio(initTime);
 
         //ALUMNOS
         ObservableList<Alumno> studentsInTutoria = tutoriaNew.getAlumnos();
@@ -171,11 +205,15 @@ public class FXMLAddTutoriaController implements Initializable {
         System.out.println(tutoriaNew.getAlumnos());
         System.out.println(tutoriaNew.getAnotaciones());
         System.out.println(tutoriaNew.getAsignatura());
-        System.out.println(duration);
         System.out.println(tutoriaNew.getDuracion());
         System.out.println(tutoriaNew.getEstado());
         System.out.println(tutoriaNew.getFecha());
         System.out.println(tutoriaNew.getInicio());
+        
+        BDAccess = AccesoBD.getInstance();
+        tutorias = BDAccess.getTutorias().getTutoriasConcertadas();
+        tutorias.add(tutoriaNew);
+        BDAccess.salvar();
 
     }
 
