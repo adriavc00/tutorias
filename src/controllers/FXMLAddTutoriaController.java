@@ -8,11 +8,8 @@ package controllers;
 import accesoBD.AccesoBD;
 import java.net.URL;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
@@ -28,14 +24,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
 import modelo.Asignatura;
 import modelo.Tutoria;
-import modelo.util.DurationAdapter;
 
 /**
  * FXML Controller class
@@ -43,15 +36,16 @@ import modelo.util.DurationAdapter;
  * @author ADRIA - LP
  */
 public class FXMLAddTutoriaController implements Initializable {
-    @FXML
-    private Button cancelButton;
     private ObservableList<Alumno> students;
     private ObservableList<Asignatura> subjects;
     private AccesoBD BDaccess;
     private ObservableList<Alumno> studentsSelected;
     private Asignatura subjectSelected;
-    private AccesoBD BDAccess;
-    private ObservableList<Tutoria> tutorias;
+    private Tutoria tutoria;
+    private boolean pressedOk = false;
+
+    @FXML
+    private Button cancelButton;
     @FXML
     private ListView<Alumno> listViewStudents;
     @FXML
@@ -155,6 +149,14 @@ public class FXMLAddTutoriaController implements Initializable {
         );
     }
 
+    public boolean pressedOk() {
+        return pressedOk;
+    }
+
+    public Tutoria getNewTutoria() {
+        return tutoria;
+    }
+
     @FXML
     private void cancel(ActionEvent event) {
         ((Stage) cancelButton.getScene().getWindow()).close();
@@ -164,7 +166,6 @@ public class FXMLAddTutoriaController implements Initializable {
     private void pressedAddStudent(ActionEvent event) {
         Alumno selected = comboBoxStudents.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            System.out.println(selected);
             studentsSelected.add(selected);
         }
     }
@@ -172,48 +173,36 @@ public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private void addTutoria(ActionEvent event) {
         subjectSelected = comboBoxSubjects.getSelectionModel().getSelectedItem();
-        Tutoria tutoriaNew = new Tutoria();
+        tutoria = new Tutoria();
 
         //ANOTACIONES
-        tutoriaNew.setAnotaciones(AnotacionesField.getText());
+        tutoria.setAnotaciones(AnotacionesField.getText());
 
         //ASIGNATURA
-        tutoriaNew.setAsignatura(subjectSelected);
+        tutoria.setAsignatura(subjectSelected);
 
         //DURATION
         int durationInt = (int) sliderTime.getValue();
         Duration duration = Duration.ofMinutes(durationInt);
-        tutoriaNew.setDuracion(duration);
+        tutoria.setDuracion(duration);
 
         //ESTADO
-        tutoriaNew.setEstado(Tutoria.EstadoTutoria.PEDIDA);
+        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
 
         //FECHA
-        tutoriaNew.setFecha(datePicker.getValue());
+        tutoria.setFecha(datePicker.getValue());
 
         //INICIO
         int h = Integer.parseInt(hours.getValue().toString());
         int m = Integer.parseInt(minutes.getValue().toString());
         LocalTime initTime = LocalTime.of(h, m);
-        tutoriaNew.setInicio(initTime);
+        tutoria.setInicio(initTime);
 
         //ALUMNOS
-        ObservableList<Alumno> studentsInTutoria = tutoriaNew.getAlumnos();
+        ObservableList<Alumno> studentsInTutoria = tutoria.getAlumnos();
         studentsInTutoria.addAll(studentsSelected);
 
-        System.out.println(tutoriaNew.getAlumnos());
-        System.out.println(tutoriaNew.getAnotaciones());
-        System.out.println(tutoriaNew.getAsignatura());
-        System.out.println(tutoriaNew.getDuracion());
-        System.out.println(tutoriaNew.getEstado());
-        System.out.println(tutoriaNew.getFecha());
-        System.out.println(tutoriaNew.getInicio());
-
-        BDAccess = AccesoBD.getInstance();
-        tutorias = BDAccess.getTutorias().getTutoriasConcertadas();
-        tutorias.add(tutoriaNew);
-        System.out.println(tutorias);
-        BDAccess.salvar();
+        pressedOk = true;
 
         ((Stage) cancelButton.getScene().getWindow()).close();
     }

@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -43,6 +44,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Tutoria;
 
 /**
  * FXML Controller class
@@ -50,6 +52,9 @@ import javafx.stage.Stage;
  * @author ADRIA - LP
  */
 public class FXMLTutoriasController implements Initializable {
+    private AccesoBD BDaccess = AccesoBD.getInstance();
+    private ObservableList<Tutoria> tutoriasCon;
+
     @FXML
     private HBox mainPane;
     @FXML
@@ -200,6 +205,9 @@ public class FXMLTutoriasController implements Initializable {
                                          + c.getStart().format(timeFormatter));
             }
         });
+
+        BDaccess = AccesoBD.getInstance();
+        tutoriasCon = BDaccess.getTutorias().getTutoriasConcertadas();
     }
 
     private void setTimeSlotsGrid(LocalDate date) {
@@ -307,5 +315,10 @@ public class FXMLTutoriasController implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
         FXMLAddTutoriaController controller = customLoader.getController();
+
+        if (controller.pressedOk()) {
+            tutoriasCon.add(controller.getNewTutoria());
+            BDaccess.salvar();
+        }
     }
 }
