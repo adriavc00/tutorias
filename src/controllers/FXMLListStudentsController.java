@@ -8,6 +8,7 @@ package controllers;
 import accesoBD.AccesoBD;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
@@ -17,7 +18,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
@@ -59,18 +62,6 @@ public class FXMLListStudentsController implements Initializable {
         nameColumn.setCellValueFactory((cellData) -> cellData.getValue().nombreProperty());
         surnameColumn.setCellValueFactory((cellData) -> cellData.getValue().apellidosProperty());
         emailColumn.setCellValueFactory((cellData) -> cellData.getValue().emailProperty());
-        //studentsList.setItems(students);
-        //studentsList.setCellFactory((cell) -> new ListCell<Alumno>() {
-        //    @Override
-        //    protected void updateItem(Alumno item, boolean empty) {
-        //        super.updateItem(item, empty);
-        //        if (empty || item == null) {
-        //            setText("");
-        //        } else {
-        //            setText(item.getNombre() + " " + item.getApellidos());
-        //        }
-        //    }
-        //});
     }
 
     @FXML
@@ -95,8 +86,17 @@ public class FXMLListStudentsController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        students.remove(studentsTable.getSelectionModel().getSelectedIndex());
-        BDaccess.salvar();
+        Alumno selected = studentsTable.getSelectionModel().getSelectedItem();
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Alumno");
+        alerta.setHeaderText("Confirmación");
+        alerta.setContentText("Seguro que quieres eliminar el alumno " + selected.getNombre() + " "
+                                  + selected.getApellidos());
+        Optional<ButtonType> result = alerta.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            students.remove(studentsTable.getSelectionModel().getSelectedIndex());
+            BDaccess.salvar();
+        }
     }
 
 }
