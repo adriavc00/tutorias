@@ -27,6 +27,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import modelo.Alumno;
 import modelo.Asignatura;
 import modelo.Tutoria;
@@ -83,7 +84,19 @@ public class FXMLAddTutoriaController implements Initializable {
                     setText(item.getCodigo());
                 }
             }
-            
+
+        });
+        comboBoxSubjects.setConverter(new StringConverter<Asignatura>() {
+            @Override
+            public String toString(Asignatura object) {
+                return object.getCodigo();
+            }
+
+            @Override
+            public Asignatura fromString(String string) {
+                return null;
+            }
+
         });
         comboBoxStudents.setItems(students);
         comboBoxStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
@@ -128,51 +141,42 @@ public class FXMLAddTutoriaController implements Initializable {
 
     @FXML
     private void addTutoria(ActionEvent event) {
-        Duration duration = null;
         subjectSelected = comboBoxSubjects.getSelectionModel().getSelectedItem();
         Tutoria tutoriaNew = new Tutoria();
-        
+
         //ANOTACIONES
         tutoriaNew.setAnotaciones(AnotacionesField.getText());
-        
+
         //ASIGNATURA
         tutoriaNew.setAsignatura(subjectSelected);
-        
-        //DURATION
-        int durationInt = (int)sliderTime.getValue();
-        String durationString = String.valueOf(durationInt);
-        DurationAdapter durationA = new DurationAdapter();
-        /*try {
-            duration = durationA.unmarshal(durationString);
-        } catch (Exception ex) {
-            Logger.getLogger(FXMLAddTutoriaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tutoriaNew.setDuracion(duration);
-*/
 
-        
+        //DURATION
+        int durationInt = (int) sliderTime.getValue();
+        Duration duration = Duration.ofMinutes(durationInt);
+        tutoriaNew.setDuracion(duration);
+
         //ESTADO
         tutoriaNew.setEstado(Tutoria.EstadoTutoria.PEDIDA);
-        
+
         //FECHA
         tutoriaNew.setFecha(LocalDate.MAX);
-        
+
         //INICIO
         tutoriaNew.setInicio(LocalTime.MAX);
-        
+
         //ALUMNOS
         ObservableList<Alumno> studentsInTutoria = tutoriaNew.getAlumnos();
         studentsInTutoria.addAll(studentsSelected);
-        
+
         System.out.println(tutoriaNew.getAlumnos());
         System.out.println(tutoriaNew.getAnotaciones());
         System.out.println(tutoriaNew.getAsignatura());
-        System.out.println(durationA);
+        System.out.println(duration);
         System.out.println(tutoriaNew.getDuracion());
         System.out.println(tutoriaNew.getEstado());
         System.out.println(tutoriaNew.getFecha());
         System.out.println(tutoriaNew.getInicio());
-        
+
     }
 
 }
