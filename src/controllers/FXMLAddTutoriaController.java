@@ -83,10 +83,11 @@ public class FXMLAddTutoriaController implements Initializable {
             selectedIndexProperty(), 0));
         
         /*addTutoriaButton.disableProperty().bind(Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
-            selectedIndexProperty(), 0), Bindings.isEmpty(listViewStudents.getItems())));
+            selectedIndexProperty(), 0), Bindings.equal("",datePicker.valueProperty())));
 //Bindings.isEmpty(studentsSelected)    
 //Bindings.isEmpty(listViewStudents.getItems())
-//, Bindings.equal(null, datePicker)*/
+//, Bindings.equal(null, datePicker)
+//Bindings.equal("",datePicker.valueProperty()*/
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
@@ -213,8 +214,10 @@ public class FXMLAddTutoriaController implements Initializable {
         BDAccess = AccesoBD.getInstance();
         tutorias = BDAccess.getTutorias().getTutoriasConcertadas();
         tutorias.add(tutoriaNew);
+        System.out.println(tutorias);
         BDAccess.salvar();
 
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
 }
