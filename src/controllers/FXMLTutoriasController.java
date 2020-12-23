@@ -208,6 +208,10 @@ public class FXMLTutoriasController implements Initializable {
 
         BDaccess = AccesoBD.getInstance();
         tutoriasCon = BDaccess.getTutorias().getTutoriasConcertadas();
+
+        for (Tutoria tutoria : tutoriasCon) {
+            paintTutoria(tutoria);
+        }
     }
 
     private void setTimeSlotsGrid(LocalDate date) {
@@ -278,24 +282,26 @@ public class FXMLTutoriasController implements Initializable {
             //----------------------------------------------------------------
             // si es un doubleClik  vamos a mostrar una alerta y cambiar el estilo de la celda
             if (event.getClickCount() > 1) {
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                alerta.setTitle("SlotTime");
-                alerta.setHeaderText("Confirma la selecció");
-                alerta.setContentText("Has seleccionat: "
-                                          + timeSlot.getDate().format(DateTimeFormatter.
-                        ofLocalizedDate(FormatStyle.SHORT)) + ", "
-                                          + timeSlot.getTime().format(DateTimeFormatter.
-                        ofLocalizedTime(FormatStyle.SHORT)));
-                Optional<ButtonType> result = alerta.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    ObservableList<String> styles = timeSlot.getView().getStyleClass();
-                    if (styles.contains("time-slot")) {
-                        styles.remove("time-slot");
-                        styles.add("time-slot-libre");
-                    } else {
-                        styles.remove("time-slot-libre");
-                        styles.add("time-slot");
-                    }
+                FXMLLoader customLoader = new FXMLLoader(getClass().
+                    getResource("/views/FXMLAddTutoria.fxml"));
+                try {
+                    Parent root = customLoader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setTitle("Añadir tutoria");
+                    stage.setScene(scene);
+                    stage.showAndWait();
+
+                } catch (IOException e) {
+                }
+                FXMLAddTutoriaController controller = customLoader.getController();
+                controller.setTimeParameters(timeSlot.start);
+                if (controller.pressedOk()) {
+                    Tutoria newTutoria = controller.getNewTutoria();
+                    paintTutoria(newTutoria);
+                    tutoriasCon.add(newTutoria);
+                    BDaccess.salvar();
                 }
             }
         });
@@ -317,8 +323,28 @@ public class FXMLTutoriasController implements Initializable {
         FXMLAddTutoriaController controller = customLoader.getController();
 
         if (controller.pressedOk()) {
-            tutoriasCon.add(controller.getNewTutoria());
+            Tutoria newTutoria = controller.getNewTutoria();
+            paintTutoria(newTutoria);
+            tutoriasCon.add(newTutoria);
             BDaccess.salvar();
+        }
+    }
+
+    private void paintTutoria(Tutoria tutoria) {
+        int dayIndex = tutoria.getFecha().getDayOfWeek().getValue() - 1;
+        int timeIndex
+            = (tutoria.getInicio().toSecondOfDay() - firstSlotStart.toSecondOfDay()) / 600;
+        for (int i = 0; (i * 10) < tutoria.getDuracion().toMinutes(); i += 1) {
+            TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i);
+            timeSlot.getView().setStyle("-fx-background-color: blue;");
+            //ObservableList<String> styles = timeSlot.getView().getStyleClass();
+            //if (styles.contains("time-slot")) {
+            //    styles.remove("time-slot");
+            //    styles.add("time-slot-libre");
+            //} else {
+            //    styles.remove("time-slot-libre");
+            //    styles.add("time-slot");
+            //}
         }
     }
 }

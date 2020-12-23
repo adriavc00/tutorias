@@ -8,6 +8,7 @@ package controllers;
 import accesoBD.AccesoBD;
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -155,6 +156,12 @@ public class FXMLAddTutoriaController implements Initializable {
 
     public Tutoria getNewTutoria() {
         return tutoria;
+    }
+
+    public void setTimeParameters(LocalDateTime start) {
+        datePicker.setValue(start.toLocalDate()); // XXX The change is not displayed
+        // hours.setValue(start.getHour());
+        // minutes.setValue(start.getMinute());
     }
 
     @FXML
