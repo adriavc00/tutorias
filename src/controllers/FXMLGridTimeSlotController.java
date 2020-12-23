@@ -58,8 +58,8 @@ public class FXMLGridTimeSlotController implements Initializable {
     private Label viernesCol;
 
     private final LocalTime firstSlotStart = LocalTime.of(9, 0);
-    private final Duration slotLength = Duration.ofMinutes(90);
-    private final LocalTime lastSlotStart = LocalTime.of(21, 0);
+    private final Duration slotLength = Duration.ofMinutes(10);
+    private final LocalTime lastSlotStart = LocalTime.of(20, 0);
 
     // se puede cambiar por codigo la pseudoclase activa de un nodo
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
@@ -79,6 +79,7 @@ public class FXMLGridTimeSlotController implements Initializable {
         diasSemana.add(miercoles);
         diasSemana.add(juevesCol);
         diasSemana.add(viernesCol);
+        
 
         timeSlotSelected = new SimpleObjectProperty<>();
 

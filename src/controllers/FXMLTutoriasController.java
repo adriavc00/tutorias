@@ -17,6 +17,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,20 +38,29 @@ public class FXMLTutoriasController implements Initializable {
     private Button noDoneButton;
     @FXML
     private Button addCommentButton;
+    @FXML
+    private DatePicker day;
+    @FXML
+    private GridPane grid;
+    @FXML
+    private Label lunesCol;
+    @FXML
+    private Label martesCol;
+    @FXML
+    private Label miercoles;
+    @FXML
+    private Label juevesCol;
+    @FXML
+    private Label viernesCol;
+    @FXML
+    private Label slotSelected;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*try {
-            FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
-                "/views/FXMLGridTimeSlot.fxml"));
-            Node timeSlot = customLoader.load();
-            ObservableList<Node> children = mainPane.getChildren();
-            children.add(timeSlot);
-        } catch (IOException e) {
-        }*/
+        
     }
 
     @FXML
