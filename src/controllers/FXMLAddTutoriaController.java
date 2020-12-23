@@ -78,20 +78,9 @@ public class FXMLAddTutoriaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        addStudent.disableProperty().bind(Bindings.lessThan(comboBoxStudents.getSelectionModel().
-            selectedIndexProperty(), 0));
-        
-        /*addTutoriaButton.disableProperty().bind(Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
-            selectedIndexProperty(), 0), Bindings.equal("",datePicker.valueProperty())));
-//Bindings.isEmpty(studentsSelected)    
-//Bindings.isEmpty(listViewStudents.getItems())
-//, Bindings.equal(null, datePicker)
-//Bindings.equal("",datePicker.valueProperty()*/
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
-        //subjectList.setItems(subjects);
         comboBoxSubjects.setItems(subjects);
         comboBoxSubjects.setCellFactory((cell) -> new ListCell<Asignatura>() {
             @Override
@@ -154,6 +143,16 @@ public class FXMLAddTutoriaController implements Initializable {
                 }
             }
         });
+
+        // BINDINGS
+        addStudent.disableProperty().bind(Bindings.lessThan(comboBoxStudents.getSelectionModel().
+            selectedIndexProperty(), 0));
+
+        addTutoriaButton.disableProperty().bind(
+            Bindings.or(Bindings.isEmpty(studentsSelected),
+                        Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
+                            selectedIndexProperty(), 0), Bindings.isNull(datePicker.valueProperty())))
+        );
     }
 
     @FXML
@@ -190,7 +189,6 @@ public class FXMLAddTutoriaController implements Initializable {
         tutoriaNew.setEstado(Tutoria.EstadoTutoria.PEDIDA);
 
         //FECHA
-        
         tutoriaNew.setFecha(datePicker.getValue());
 
         //INICIO
@@ -210,7 +208,7 @@ public class FXMLAddTutoriaController implements Initializable {
         System.out.println(tutoriaNew.getEstado());
         System.out.println(tutoriaNew.getFecha());
         System.out.println(tutoriaNew.getInicio());
-        
+
         BDAccess = AccesoBD.getInstance();
         tutorias = BDAccess.getTutorias().getTutoriasConcertadas();
         tutorias.add(tutoriaNew);
