@@ -6,23 +6,19 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToolBar?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
    <top>
-      <VBox BorderPane.alignment="CENTER">
+      <ToolBar BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-               <children>
-                  <Button fx:id="tutoriasButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#tutoriasPressed" prefHeight="55.0" prefWidth="110.0" text="Tutorias" />
-                  <Button fx:id="subjectsButton" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#subjectsPressed" prefHeight="55.0" prefWidth="110.0" text="Asignaturas" />
-                  <Button fx:id="studentsButton" layoutX="75.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#studentsPressed" prefHeight="55.0" prefWidth="110.0" text="Alumnos" />
-               </children>
-            </HBox>
-            <Separator prefWidth="200.0" />
-         </children>
-      </VBox>
+         <items>
+            <Button fx:id="tutoriasButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#tutoriasPressed" prefHeight="55.0" prefWidth="110.0" text="Tutorias" />
+            <Button fx:id="subjectsButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#subjectsPressed" prefHeight="55.0" prefWidth="110.0" text="Asignaturas" />
+            <Button fx:id="studentsButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#studentsPressed" prefHeight="55.0" prefWidth="110.0" text="Alumnos" />
+         </items>
+      </ToolBar>
    </top>
 </BorderPane>

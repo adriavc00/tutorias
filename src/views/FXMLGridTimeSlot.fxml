@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="516.0" prefWidth="631.0" spacing="36.0" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLGridTimeSlotController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="516.0" prefWidth="631.0" spacing="36.0" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLGridTimeSlotController">
     <children>
         <DatePicker fx:id="day" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
         <GridPane fx:id="grid" focusTraversable="true" prefHeight="350.0" prefWidth="583.0" VBox.vgrow="ALWAYS">

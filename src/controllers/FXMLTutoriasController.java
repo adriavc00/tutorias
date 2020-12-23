@@ -41,14 +41,14 @@ public class FXMLTutoriasController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
+        /*try {
             FXMLLoader customLoader = new FXMLLoader(getClass().getResource(
                 "/views/FXMLGridTimeSlot.fxml"));
             Node timeSlot = customLoader.load();
             ObservableList<Node> children = mainPane.getChildren();
             children.add(timeSlot);
         } catch (IOException e) {
-        }
+        }*/
     }
 
     @FXML
