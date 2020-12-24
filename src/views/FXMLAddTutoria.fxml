@@ -79,7 +79,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <children>
                         
-                        <Spinner fx:id="hours" initialValue="8" max="19" min="8" HBox.hgrow="SOMETIMES">
+                        <Spinner fx:id="hours" initialValue="10" max="16" min="10" HBox.hgrow="SOMETIMES">
                             <editable>true</editable>
                         </Spinner>
                         <Label text=":" />

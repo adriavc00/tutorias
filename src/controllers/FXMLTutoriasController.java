@@ -86,6 +86,7 @@ public class FXMLTutoriasController implements Initializable {
     private final int NUMBER_OF_SLOTS_PER_DAY = (lastSlotStart.toSecondOfDay()
                                                      - firstSlotStart.toSecondOfDay()) / 600;
 
+            
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSolt>>
@@ -163,10 +164,17 @@ public class FXMLTutoriasController implements Initializable {
             period += time.toString();
             period += " - ";
             time = time.plusMinutes(10);
+            
             period += time.toString();
             Label label = new Label(period);
-            label.setFont(Font.font(10));
-            grid.add(label, 0, i);
+            if (i % 6 == 1) {
+                label.setFont(Font.font(15));
+                grid.add(label, 0, i, 1, 6); //No sé si el 6 es correcto o no
+            } else {
+                label.setText("");
+                grid.add(label, 0, i);
+            }
+            //grid.getRowConstraints().get(i).setPrefHeight(10);
         }
         // dejo los label de las columnas en un list<> para usarlo en un bucle
         diasSemana = new ArrayList<>();
@@ -325,7 +333,12 @@ public class FXMLTutoriasController implements Initializable {
         if (controller.pressedOk()) {
             Tutoria newTutoria = controller.getNewTutoria();
             paintTutoria(newTutoria);
+            /*tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS ANTERIORES
+            for (Tutoria tutoria : tutoriasCon) {
+                System.out.println(tutoria.getInicio());
+            }*/
             tutoriasCon.add(newTutoria);
+            //System.out.println(tutoriasCon);
             BDaccess.salvar();
         }
     }
@@ -335,7 +348,7 @@ public class FXMLTutoriasController implements Initializable {
         int timeIndex
             = (tutoria.getInicio().toSecondOfDay() - firstSlotStart.toSecondOfDay()) / 600;
         for (int i = 0; (i * 10) < tutoria.getDuracion().toMinutes(); i += 1) {
-            TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i);
+            TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i); 
             timeSlot.getView().setStyle("-fx-background-color: blue;");
             //ObservableList<String> styles = timeSlot.getView().getStyleClass();
             //if (styles.contains("time-slot")) {
@@ -346,5 +359,6 @@ public class FXMLTutoriasController implements Initializable {
             //    styles.add("time-slot");
             //}
         }
+        
     }
 }
