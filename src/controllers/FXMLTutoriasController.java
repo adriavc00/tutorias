@@ -37,6 +37,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -82,11 +83,10 @@ public class FXMLTutoriasController implements Initializable {
 
     private final LocalTime firstSlotStart = LocalTime.of(10, 0);
     private final Duration slotLength = Duration.ofMinutes(10);
-    private final LocalTime lastSlotStart = LocalTime.of(17, 30);
+    private final LocalTime lastSlotStart = LocalTime.of(17, 0);
     private final int NUMBER_OF_SLOTS_PER_DAY = (lastSlotStart.toSecondOfDay()
                                                      - firstSlotStart.toSecondOfDay()) / 600;
 
-            
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSolt>>
@@ -100,6 +100,7 @@ public class FXMLTutoriasController implements Initializable {
         private final LocalDateTime start;
         private final Duration duration;
         protected final Pane view;
+        private Tutoria tutoria;
 
         private final BooleanProperty selected = new SimpleBooleanProperty();
 
@@ -119,7 +120,7 @@ public class FXMLTutoriasController implements Initializable {
             this.start = start;
             this.duration = duration;
             view = new Pane();
-            view.getStyleClass().add("time-slot");
+            view.getStyleClass().add("time-slot-libre");
             // ---------------------------------------------------------------
             // de esta manera cambiamos la apariencia del TimeSlot cuando los seleccionamos
             selectedProperty().addListener((obs, wasSelected, isSelected)
@@ -150,13 +151,26 @@ public class FXMLTutoriasController implements Initializable {
         public Node getView() {
             return view;
         }
+
+        private void setTutoria(Tutoria tutoria) {
+            this.tutoria = tutoria;
+        }
+
+        private Tutoria getTutoria() {
+            return tutoria;
+        }
     }
+    @FXML
+    private ScrollPane scrollPane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //hacer que el grid ocupe todo
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
         //creamos los slots necesarios para un dia
         LocalTime time = firstSlotStart;
         for (int i = 1; i <= NUMBER_OF_SLOTS_PER_DAY; i++) {
@@ -164,7 +178,7 @@ public class FXMLTutoriasController implements Initializable {
             period += time.toString();
             period += " - ";
             time = time.plusMinutes(10);
-            
+
             period += time.toString();
             Label label = new Label(period);
             if (i % 6 == 1) {
@@ -218,7 +232,7 @@ public class FXMLTutoriasController implements Initializable {
         tutoriasCon = BDaccess.getTutorias().getTutoriasConcertadas();
 
         for (Tutoria tutoria : tutoriasCon) {
-            paintTutoria(tutoria);
+            paintAndLinkTutoria(tutoria);
         }
     }
 
@@ -290,26 +304,41 @@ public class FXMLTutoriasController implements Initializable {
             //----------------------------------------------------------------
             // si es un doubleClik  vamos a mostrar una alerta y cambiar el estilo de la celda
             if (event.getClickCount() > 1) {
-                FXMLLoader customLoader = new FXMLLoader(getClass().
-                    getResource("/views/FXMLAddTutoria.fxml"));
-                try {
-                    Parent root = customLoader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setTitle("Añadir tutoria");
-                    stage.setScene(scene);
-                    stage.showAndWait();
+                if (timeSlot.getTutoria() == null) {
+                    FXMLLoader customLoader = new FXMLLoader(getClass().
+                        getResource("/views/FXMLAddTutoria.fxml"));
+                    try {
+                        Parent root = customLoader.load();
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Añadir tutoria");
+                        stage.setScene(scene);
+                        stage.showAndWait();
 
-                } catch (IOException e) {
-                }
-                FXMLAddTutoriaController controller = customLoader.getController();
-                controller.setTimeParameters(timeSlot.start);
-                if (controller.pressedOk()) {
-                    Tutoria newTutoria = controller.getNewTutoria();
-                    paintTutoria(newTutoria);
-                    tutoriasCon.add(newTutoria);
-                    BDaccess.salvar();
+                    } catch (IOException e) {
+                    }
+                    FXMLAddTutoriaController controller = customLoader.getController();
+                    controller.setTimeParameters(timeSlot.start);
+                    if (controller.pressedOk()) {
+                        Tutoria newTutoria = controller.getNewTutoria();
+                        paintAndLinkTutoria(newTutoria);
+                        tutoriasCon.add(newTutoria);
+                        BDaccess.salvar();
+                    }
+                } else {
+                    FXMLLoader customLoader = new FXMLLoader(getClass().
+                        getResource("/views/FXMLDetailTutoria.fxml"));
+                    try {
+                        Parent root = customLoader.load();
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Detalle de tutoría");
+                        stage.setScene(scene);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                    }
                 }
             }
         });
@@ -332,33 +361,58 @@ public class FXMLTutoriasController implements Initializable {
 
         if (controller.pressedOk()) {
             Tutoria newTutoria = controller.getNewTutoria();
-            paintTutoria(newTutoria);
-            /*tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS ANTERIORES
-            for (Tutoria tutoria : tutoriasCon) {
-                System.out.println(tutoria.getInicio());
-            }*/
+            paintAndLinkTutoria(newTutoria);
+            /*
+             * tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS
+             * ANTERIORES for (Tutoria tutoria : tutoriasCon) {
+             * System.out.println(tutoria.getInicio()); }
+             */
             tutoriasCon.add(newTutoria);
             //System.out.println(tutoriasCon);
             BDaccess.salvar();
         }
     }
 
-    private void paintTutoria(Tutoria tutoria) {
+    private void paintAndLinkTutoria(Tutoria tutoria) {
         int dayIndex = tutoria.getFecha().getDayOfWeek().getValue() - 1;
         int timeIndex
             = (tutoria.getInicio().toSecondOfDay() - firstSlotStart.toSecondOfDay()) / 600;
-        for (int i = 0; (i * 10) < tutoria.getDuracion().toMinutes(); i += 1) {
-            TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i); 
-            timeSlot.getView().setStyle("-fx-background-color: blue;");
-            //ObservableList<String> styles = timeSlot.getView().getStyleClass();
-            //if (styles.contains("time-slot")) {
-            //    styles.remove("time-slot");
-            //    styles.add("time-slot-libre");
-            //} else {
-            //    styles.remove("time-slot-libre");
-            //    styles.add("time-slot");
-            //}
+        for (int i = 0; (i * 10) <= tutoria.getDuracion().toMinutes(); i++) {
+            TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i);
+            timeSlot.setTutoria(tutoria);
+            ObservableList<String> styleClass = timeSlot.getView().getStyleClass();
+            switch (tutoria.getEstado()) {
+                case ANULADA:
+                    styleClass.remove("time-slot-libre");
+                    styleClass.remove("time-slot-no-asistida");
+                    styleClass.remove("time-slot-realizada");
+                    styleClass.remove("time-slot-pedida");
+                    styleClass.add("time-slot-anulada");
+                    break;
+                case NO_ASISTIDA:
+                    styleClass.remove("time-slot-libre");
+                    styleClass.remove("time-slot-realizada");
+                    styleClass.remove("time-slot-anulada");
+                    styleClass.remove("time-slot-pedida");
+                    styleClass.add("time-slot-no-asistida");
+                    break;
+                case REALIZADA:
+                    styleClass.remove("time-slot-libre");
+                    styleClass.remove("time-slot-anulada");
+                    styleClass.remove("time-slot-pedida");
+                    styleClass.remove("time-slot-no-asistida");
+                    styleClass.add("time-slot-realizada");
+                    break;
+                case PEDIDA:
+                    styleClass.remove("time-slot-libre");
+                    styleClass.remove("time-slot-anulada");
+                    styleClass.remove("time-slot-no-asistida");
+                    styleClass.remove("time-slot-realizada");
+                    styleClass.add("time-slot-pedida");
+                    break;
+                default:
+                    break;
+            }
         }
-        
     }
 }
