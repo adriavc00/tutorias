@@ -80,7 +80,13 @@ public class FXMLAddTutoriaController implements Initializable {
         BDaccess = AccesoBD.getInstance();
         subjects = BDaccess.getTutorias().getAsignaturas();
         students = BDaccess.getTutorias().getAlumnosTutorizados();
+
         comboBoxSubjects.setItems(subjects);
+        comboBoxStudents.setItems(students);
+        studentsSelected = FXCollections.observableArrayList();
+        listViewStudents.setItems(studentsSelected);
+
+        // CELL FACTORIES AND CONVERTERS
         comboBoxSubjects.setCellFactory((cell) -> new ListCell<Asignatura>() {
             @Override
             protected void updateItem(Asignatura item, boolean empty) {
@@ -105,7 +111,6 @@ public class FXMLAddTutoriaController implements Initializable {
             }
 
         });
-        comboBoxStudents.setItems(students);
         comboBoxStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
             @Override
             protected void updateItem(Alumno item, boolean empty) {
@@ -129,8 +134,6 @@ public class FXMLAddTutoriaController implements Initializable {
                 return null;
             }
         });
-        studentsSelected = FXCollections.observableArrayList();
-        listViewStudents.setItems(studentsSelected);
         listViewStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
             @Override
             protected void updateItem(Alumno item, boolean empty) {
@@ -142,7 +145,7 @@ public class FXMLAddTutoriaController implements Initializable {
                 }
             }
         });
-        //TODO: Cambiar el factory del Spinner para poner dos dígitos
+        //TODO: Cambiar el factory del Spinner para poner dos dígitos. https://stackoverflow.com/questions/45470508/javafx-spinner-units
 
         // BINDINGS
         addStudent.disableProperty().bind(Bindings.lessThan(comboBoxStudents.getSelectionModel().
@@ -176,9 +179,9 @@ public class FXMLAddTutoriaController implements Initializable {
     }
 
     public void setTimeParameters(LocalDateTime start) {
-        datePicker.setValue(start.toLocalDate()); // XXX The change is not displayed
-        // hours.setValue(start.getHour());
-        // minutes.setValue(start.getMinute());
+        datePicker.setValue(start.toLocalDate());
+        hours.getValueFactory().setValue(start.getHour());
+        minutes.getValueFactory().setValue(start.getMinute());
     }
 
     @FXML

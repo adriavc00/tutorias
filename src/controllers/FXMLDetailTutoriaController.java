@@ -5,7 +5,9 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,9 +16,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import modelo.Alumno;
 import modelo.Tutoria;
 
 /**
@@ -27,8 +31,10 @@ import modelo.Tutoria;
 public class FXMLDetailTutoriaController implements Initializable {
 
     private boolean modifiedT = false;
+    private FXMLTutoriasController tutoriasController;
+
     @FXML
-    private ListView<?> listViewStudents;
+    private ListView<Alumno> listViewStudents;
     @FXML
     private Label subject;
     @FXML
@@ -43,7 +49,7 @@ public class FXMLDetailTutoriaController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button notDoneButton;
-    
+
     private Tutoria tutoria;
     @FXML
     private TextArea anotacionesField;
@@ -55,27 +61,30 @@ public class FXMLDetailTutoriaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        FXMLLoader customLoader = new FXMLLoader(getClass().
-                        getResource("/views/FXMLTutorias.fxml"));
-        FXMLTutoriasController controller = customLoader.getController();
-        //System.out.println(controller.pruebaInt());
-        /*tutoria = controller.getSelectedTutoria();
-        
-        /*subject.setText(tutoria.getAsignatura().toString());
+    }
+
+    public void initialize() {
+        tutoria = tutoriasController.getSelectedTutoria();
+
+        subject.setText(tutoria.getAsignatura().getCodigo());
         initHour.setText(tutoria.getInicio().toString());
-        duration.setText(tutoria.getDuracion().toString());
+        duration.setText(tutoria.getDuracion().toMinutes() + " mins");
         state.setText(tutoria.getEstado().toString());
-        date.setText(tutoria.getFecha().toString());
-        anotacionesField.setText(tutoria.getAnotaciones());*/
-        
-        /*anotacionesField.textProperty().addListener((a, oldV, newV) -> {
-            tutoria.setAnotaciones(newV);
-            modifiedT = true;
-        });*/
-        
-        
-        
+        date.setText(tutoria.getFecha().format(DateTimeFormatter.ofPattern("dd MMM, yyyy")));
+        anotacionesField.setText(tutoria.getAnotaciones());
+
+        listViewStudents.setItems(tutoria.getAlumnos());
+        listViewStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
+            @Override
+            protected void updateItem(Alumno item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    setText(item.getNombre() + " " + item.getApellidos());
+                }
+            }
+        });
     }
 
     @FXML
@@ -96,7 +105,7 @@ public class FXMLDetailTutoriaController implements Initializable {
     private void exit(ActionEvent event) {
         ((Stage) exitButton.getScene().getWindow()).close();
     }
-    
+
     private void dialogo() {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Confirmación");
@@ -107,5 +116,9 @@ public class FXMLDetailTutoriaController implements Initializable {
 
     public boolean modifiedT() {
         return modifiedT;
+    }
+
+    public void setController(FXMLTutoriasController controller) {
+        this.tutoriasController = controller;
     }
 }

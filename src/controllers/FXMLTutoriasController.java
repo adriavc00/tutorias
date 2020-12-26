@@ -14,10 +14,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -34,9 +32,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -97,8 +93,6 @@ public class FXMLTutoriasController implements Initializable {
     private ObjectProperty<TimeSlot> timeSlotSelected;
 
     private List<Label> diasSemana;
-    
-    private Tutoria tutoriaSelected;
 
     public class TimeSlot {
 
@@ -191,13 +185,12 @@ public class FXMLTutoriasController implements Initializable {
                 label.setFont(Font.font(10));
                 label.setTextAlignment(TextAlignment.RIGHT);
                 label.setPadding(new Insets(0, 5, 0, 0));
-                grid.add(label, 0, i); //No sé si el 6 es correcto o no
+                grid.add(label, 0, i);
             } else {
                 label.setText("");
                 label.setFont(Font.font(7));
                 grid.add(label, 0, i);
             }
-            //grid.getRowConstraints().get(i).setPrefHeight(10);
         }
         //guardo las tutorias concertadas en la variable
         BDaccess = AccesoBD.getInstance();
@@ -254,12 +247,9 @@ public class FXMLTutoriasController implements Initializable {
     }
 
     public Tutoria getSelectedTutoria() {
-        /*System.out.println(timeSlotSelected.get().getTutoria());
-        return timeSlotSelected.get().getTutoria();*/
-        System.out.println(tutoriaSelected);
-        return tutoriaSelected;
+        return timeSlotSelected.get().getTutoria();
     }
-    
+
     public int pruebaInt() {
         return 10;
     }
@@ -342,6 +332,9 @@ public class FXMLTutoriasController implements Initializable {
                         getResource("/views/FXMLAddTutoria.fxml"));
                     try {
                         Parent root = customLoader.load();
+                        FXMLAddTutoriaController controller = customLoader.getController();
+                        controller.setTimeParameters(timeSlot.start);
+
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
                         stage.initModality(Modality.APPLICATION_MODAL);
@@ -349,29 +342,30 @@ public class FXMLTutoriasController implements Initializable {
                         stage.setScene(scene);
                         stage.showAndWait();
 
+                        if (controller.pressedOk()) {
+                            Tutoria newTutoria = controller.getNewTutoria();
+                            paintAndLinkTutoria(newTutoria);
+                            tutoriasCon.add(newTutoria);
+                            BDaccess.salvar();
+                        }
                     } catch (IOException e) {
                     }
-                    FXMLAddTutoriaController controller = customLoader.getController();
-                    controller.setTimeParameters(timeSlot.start);
-                    if (controller.pressedOk()) {
-                        Tutoria newTutoria = controller.getNewTutoria();
-                        paintAndLinkTutoria(newTutoria);
-                        tutoriasCon.add(newTutoria);
-                        BDaccess.salvar();
-                    }
                 } else {
-                    tutoriaSelected = timeSlot.getTutoria();
                     FXMLLoader customLoader = new FXMLLoader(getClass().
                         getResource("/views/FXMLDetailTutoria.fxml"));
                     try {
                         Parent root = customLoader.load();
+                        FXMLDetailTutoriaController controllerDetail = customLoader.getController();
+                        controllerDetail.setController(this);
+                        controllerDetail.initialize();
+
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.setTitle("Detalle de tutoría");
                         stage.setScene(scene);
                         stage.showAndWait();
-                        FXMLDetailTutoriaController controllerDetail = customLoader.getController();
+
                         if (controllerDetail.modifiedT()) {
                             //NO SÉ SI HAY QUE HACER ALGO ESPECIAL PARA GUARDAR LA TUTORÍA MODIFICADA
                             BDaccess.salvar();
@@ -408,7 +402,6 @@ public class FXMLTutoriasController implements Initializable {
              * System.out.println(tutoria.getInicio()); }
              */
             tutoriasCon.add(newTutoria);
-            //System.out.println(tutoriasCon);
             BDaccess.salvar();
         }
     }
