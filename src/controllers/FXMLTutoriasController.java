@@ -97,6 +97,8 @@ public class FXMLTutoriasController implements Initializable {
     private ObjectProperty<TimeSlot> timeSlotSelected;
 
     private List<Label> diasSemana;
+    
+    private Tutoria tutoriaSelected;
 
     public class TimeSlot {
 
@@ -252,7 +254,14 @@ public class FXMLTutoriasController implements Initializable {
     }
 
     public Tutoria getSelectedTutoria() {
-        return timeSlotSelected.get().getTutoria();
+        /*System.out.println(timeSlotSelected.get().getTutoria());
+        return timeSlotSelected.get().getTutoria();*/
+        System.out.println(tutoriaSelected);
+        return tutoriaSelected;
+    }
+    
+    public int pruebaInt() {
+        return 10;
     }
 
     private void setTimeSlotsGrid(LocalDate date) {
@@ -351,6 +360,7 @@ public class FXMLTutoriasController implements Initializable {
                         BDaccess.salvar();
                     }
                 } else {
+                    tutoriaSelected = timeSlot.getTutoria();
                     FXMLLoader customLoader = new FXMLLoader(getClass().
                         getResource("/views/FXMLDetailTutoria.fxml"));
                     try {
@@ -361,6 +371,11 @@ public class FXMLTutoriasController implements Initializable {
                         stage.setTitle("Detalle de tutoría");
                         stage.setScene(scene);
                         stage.showAndWait();
+                        FXMLDetailTutoriaController controllerDetail = customLoader.getController();
+                        if (controllerDetail.modifiedT()) {
+                            //NO SÉ SI HAY QUE HACER ALGO ESPECIAL PARA GUARDAR LA TUTORÍA MODIFICADA
+                            BDaccess.salvar();
+                        }
                     } catch (IOException e) {
                     }
                 }
