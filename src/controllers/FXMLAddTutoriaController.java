@@ -10,6 +10,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -20,11 +21,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.DragEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
@@ -138,6 +141,7 @@ public class FXMLAddTutoriaController implements Initializable {
                 }
             }
         });
+        //TODO: Cambiar el factory del Spinner para poner dos dígitos
 
         // BINDINGS
         addStudent.disableProperty().bind(Bindings.lessThan(comboBoxStudents.getSelectionModel().
@@ -212,6 +216,18 @@ public class FXMLAddTutoriaController implements Initializable {
         pressedOk = true;
 
         ((Stage) cancelButton.getScene().getWindow()).close();
+    }
+
+    @FXML
+    private void adjustMaxValue(DragEvent event) {
+        LocalTime maxTime = LocalTime.of(20, 0);
+        int h = Integer.parseInt(hours.getValue().toString());
+        int m = Integer.parseInt(minutes.getValue().toString());
+        LocalTime initTime = LocalTime.of(h, m);
+        if (initTime.plusMinutes((long) sliderTime.getValue()).isAfter(maxTime)) {
+            double max = ChronoUnit.MINUTES.between(maxTime, initTime);
+            sliderTime.setValue(max);
+        }
     }
 
 }
