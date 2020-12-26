@@ -68,7 +68,7 @@
                         <Button fx:id="addStudent" mnemonicParsing="false" onAction="#pressedAddStudent" text="Añadir" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <ComboBox fx:id="comboBoxSubjects" prefWidth="150.0" GridPane.rowIndex="1" />
                         <ComboBox fx:id="comboBoxStudents" prefWidth="150.0" GridPane.rowIndex="3" />
-                        <Slider fx:id="sliderTime" majorTickUnit="10.0" max="60.0" min="10.0" minorTickCount="0" onDragExited="#adjustMaxValue" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                        <Slider fx:id="sliderTime" majorTickUnit="10.0" max="60.0" min="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="2">
                             <padding>
                                 <Insets top="10.0" />
                             </padding>

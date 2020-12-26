@@ -28,6 +28,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
@@ -152,6 +153,18 @@ public class FXMLAddTutoriaController implements Initializable {
                         Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
                             selectedIndexProperty(), 0), Bindings.isNull(datePicker.valueProperty())))
         );
+
+        // EVENT HANDLER
+        sliderTime.setOnMouseReleased((event) -> {
+            LocalTime maxTime = LocalTime.of(20, 0);
+            int h = Integer.parseInt(hours.getValue().toString());
+            int m = Integer.parseInt(minutes.getValue().toString());
+            LocalTime initTime = LocalTime.of(h, m);
+            if (initTime.plusMinutes((long) sliderTime.getValue()).isAfter(maxTime)) {
+                double max = ChronoUnit.MINUTES.between(initTime, maxTime);
+                sliderTime.setValue(max);
+            }
+        });
     }
 
     public boolean pressedOk() {
@@ -216,18 +229,6 @@ public class FXMLAddTutoriaController implements Initializable {
         pressedOk = true;
 
         ((Stage) cancelButton.getScene().getWindow()).close();
-    }
-
-    @FXML
-    private void adjustMaxValue(DragEvent event) {
-        LocalTime maxTime = LocalTime.of(20, 0);
-        int h = Integer.parseInt(hours.getValue().toString());
-        int m = Integer.parseInt(minutes.getValue().toString());
-        LocalTime initTime = LocalTime.of(h, m);
-        if (initTime.plusMinutes((long) sliderTime.getValue()).isAfter(maxTime)) {
-            double max = ChronoUnit.MINUTES.between(maxTime, initTime);
-            sliderTime.setValue(max);
-        }
     }
 
 }
