@@ -84,9 +84,9 @@ public class FXMLTutoriasController implements Initializable {
     @FXML
     private Label slotSelected;
 
-    private final LocalTime firstSlotStart = LocalTime.of(10, 0);
+    private final LocalTime firstSlotStart = LocalTime.of(8, 0);
     private final Duration slotLength = Duration.ofMinutes(10);
-    private final LocalTime lastSlotStart = LocalTime.of(17, 0);
+    private final LocalTime lastSlotStart = LocalTime.of(20, 0);
     private final int NUMBER_OF_SLOTS_PER_DAY = (lastSlotStart.toSecondOfDay()
                                                      - firstSlotStart.toSecondOfDay()) / 600;
 
@@ -176,7 +176,7 @@ public class FXMLTutoriasController implements Initializable {
         scrollPane.setFitToHeight(true);
         //creamos los slots necesarios para un dia
         LocalTime time = LocalTime.from(firstSlotStart);
-                //firstSlotStart;
+        //firstSlotStart;
         for (int i = 1; i <= NUMBER_OF_SLOTS_PER_DAY; i++) {
             String period = "";
             period += time.toString();
@@ -188,7 +188,7 @@ public class FXMLTutoriasController implements Initializable {
             if (i % 6 == 1) {
                 label.setFont(Font.font(10));
                 label.setTextAlignment(TextAlignment.RIGHT);
-                label.setPadding(new Insets(0,5,0,0));
+                label.setPadding(new Insets(0, 5, 0, 0));
                 grid.add(label, 0, i); //No sé si el 6 es correcto o no
             } else {
                 label.setText("");
@@ -197,6 +197,10 @@ public class FXMLTutoriasController implements Initializable {
             }
             //grid.getRowConstraints().get(i).setPrefHeight(10);
         }
+        //guardo las tutorias concertadas en la variable
+        BDaccess = AccesoBD.getInstance();
+        tutoriasCon = BDaccess.getTutorias().getTutoriasConcertadas();
+
         // dejo los label de las columnas en un list<> para usarlo en un bucle
         diasSemana = new ArrayList<>();
         diasSemana.add(lunesCol);
@@ -214,11 +218,22 @@ public class FXMLTutoriasController implements Initializable {
         //---------------------------------------------------------------------
         // pinta los SlotTime en el grid
         setTimeSlotsGrid(day.getValue());
+        for (Tutoria tutoria : tutoriasCon) {
+            paintAndLinkTutoria(tutoria);
+        }
 
         //---------------------------------------------------------------------
         //cambia los SlotTime al cambiar de dia
         day.valueProperty().addListener((a, b, c) -> {
             setTimeSlotsGrid(c);
+            LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
+            LocalDate endOfWeek = startOfWeek.plusDays(4);
+            for (Tutoria tutoria : tutoriasCon) {
+                if (tutoria.getFecha().isAfter(startOfWeek)
+                        && tutoria.getFecha().isBefore(endOfWeek)) {
+                    paintAndLinkTutoria(tutoria);
+                }
+            }
         });
 
         //---------------------------------------------------------------------
@@ -234,13 +249,10 @@ public class FXMLTutoriasController implements Initializable {
                                          + c.getStart().format(timeFormatter));
             }
         });
+    }
 
-        BDaccess = AccesoBD.getInstance();
-        tutoriasCon = BDaccess.getTutorias().getTutoriasConcertadas();
-
-        for (Tutoria tutoria : tutoriasCon) {
-            paintAndLinkTutoria(tutoria);
-        }
+    public Tutoria getSelectedTutoria() {
+        return timeSlotSelected.get().getTutoria();
     }
 
     private void setTimeSlotsGrid(LocalDate date) {
@@ -281,11 +293,11 @@ public class FXMLTutoriasController implements Initializable {
                 //---------------------------------------------------------------------------------------
                 // creamos el SlotTime, lo anyadimos a la lista de la columna y asignamos sus manejadores
                 TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
-                
+
                 if (startTime.getMinute() == 0) {
                     timeSlot.getView().setStyle("-fx-border-width: 2 0 0 0; -fx-border-color: red;");
                 }
-                
+
                 slotsDia.add(timeSlot);
                 registerHandlers(timeSlot);
                 //-----------------------------------------------------------
@@ -374,11 +386,12 @@ public class FXMLTutoriasController implements Initializable {
         if (controller.pressedOk()) {
             Tutoria newTutoria = controller.getNewTutoria();
             paintAndLinkTutoria(newTutoria);
-            
-            /*tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS ANTERIORES
-            for (Tutoria tutoria : tutoriasCon) {
-            System.out.println(tutoria.getInicio()); }
-            */
+
+            /*
+             * tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS
+             * ANTERIORES for (Tutoria tutoria : tutoriasCon) {
+             * System.out.println(tutoria.getInicio()); }
+             */
             tutoriasCon.add(newTutoria);
             //System.out.println(tutoriasCon);
             BDaccess.salvar();
