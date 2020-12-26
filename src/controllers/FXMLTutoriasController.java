@@ -29,6 +29,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -43,6 +45,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Tutoria;
@@ -172,20 +175,24 @@ public class FXMLTutoriasController implements Initializable {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         //creamos los slots necesarios para un dia
-        LocalTime time = firstSlotStart;
+        LocalTime time = LocalTime.from(firstSlotStart);
+                //firstSlotStart;
         for (int i = 1; i <= NUMBER_OF_SLOTS_PER_DAY; i++) {
             String period = "";
             period += time.toString();
-            period += " - ";
+            //period += " - ";
             time = time.plusMinutes(10);
 
-            period += time.toString();
+            //period += time.toString();
             Label label = new Label(period);
             if (i % 6 == 1) {
-                label.setFont(Font.font(15));
-                grid.add(label, 0, i, 1, 6); //No sé si el 6 es correcto o no
+                label.setFont(Font.font(10));
+                label.setTextAlignment(TextAlignment.RIGHT);
+                label.setPadding(new Insets(0,5,0,0));
+                grid.add(label, 0, i); //No sé si el 6 es correcto o no
             } else {
                 label.setText("");
+                label.setFont(Font.font(7));
                 grid.add(label, 0, i);
             }
             //grid.getRowConstraints().get(i).setPrefHeight(10);
@@ -274,6 +281,11 @@ public class FXMLTutoriasController implements Initializable {
                 //---------------------------------------------------------------------------------------
                 // creamos el SlotTime, lo anyadimos a la lista de la columna y asignamos sus manejadores
                 TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
+                
+                if (startTime.getMinute() == 0) {
+                    timeSlot.getView().setStyle("-fx-border-width: 2 0 0 0; -fx-border-color: red;");
+                }
+                
                 slotsDia.add(timeSlot);
                 registerHandlers(timeSlot);
                 //-----------------------------------------------------------
@@ -362,11 +374,11 @@ public class FXMLTutoriasController implements Initializable {
         if (controller.pressedOk()) {
             Tutoria newTutoria = controller.getNewTutoria();
             paintAndLinkTutoria(newTutoria);
-            /*
-             * tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS
-             * ANTERIORES for (Tutoria tutoria : tutoriasCon) {
-             * System.out.println(tutoria.getInicio()); }
-             */
+            
+            /*tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS ANTERIORES
+            for (Tutoria tutoria : tutoriasCon) {
+            System.out.println(tutoria.getInicio()); }
+            */
             tutoriasCon.add(newTutoria);
             //System.out.println(tutoriasCon);
             BDaccess.salvar();

@@ -50,7 +50,7 @@ public class FXMLLoginController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setTitle("Tutorías");
-        stage.setMinHeight(700);
+        stage.setMinHeight(600);
         stage.setMinWidth(800);
         stage.setScene(scene);
         stage.show();
