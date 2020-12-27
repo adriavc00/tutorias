@@ -35,18 +35,28 @@ and open the template in the editor.
 
 .time-slot-pedida:selected {
     -fx-background-color: #00ffcc, indianred;
-}
-
-.time-slot-anulada:selected {
-    -fx-background-color: gray, indianred;
-}
-
-.time-slot-realizada:selected {
-    -fx-background-color: blue, indianred;
+    -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-libre:selected {
     -fx-background-color: indianred;
 }
+
+.time-slot-no-asistida:selected {
+    -fx-background-color: blue, indianred;
+    -fx-background-insets: 0, 1 1 0 0 ;
+}
+
+.time-slot-anulada:selected {
+    -fx-background-color: gray, indianred;
+    -fx-background-insets: 0, 1 1 0 0 ;
+}
+
+.time-slot-realizada:selected {
+    -fx-background-color: green, indianred;
+    -fx-background-insets: 0, 1 1 0 0 ;
+}
+
+
 
 

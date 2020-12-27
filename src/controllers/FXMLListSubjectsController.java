@@ -82,6 +82,7 @@ public class FXMLListSubjectsController implements Initializable {
         stage.setTitle("Añadir asignatura");
         stage.setScene(scene);
         stage.showAndWait();
+        stage.setResizable(false);
         FXMLNewSubjectController controller = customLoader.getController();
 
         if (controller.pressedOk()) {
@@ -96,7 +97,8 @@ public class FXMLListSubjectsController implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Asignatura");
         alerta.setHeaderText("Confirmación");
-        alerta.setContentText("¿Seguro que quieres eliminar la asignatura " + selected.getCodigo() + "? Se mantendrá la asignatura en las tutorías que ya han sido creadas");
+        alerta.setContentText("¿Seguro que quieres eliminar la asignatura " + selected.getCodigo()
+                              + "? Se mantendrá la asignatura en las tutorías que ya han sido creadas");
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             subjects.remove(subjectsTable.getSelectionModel().getSelectedIndex());

@@ -75,6 +75,7 @@ public class FXMLListStudentsController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Añadir alumno");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.showAndWait();
         FXMLNewStudentController controller = customLoader.getController();
 
@@ -91,7 +92,8 @@ public class FXMLListStudentsController implements Initializable {
         alerta.setTitle("Alumno");
         alerta.setHeaderText("Confirmación");
         alerta.setContentText("¿Seguro que quieres eliminar el alumno " + selected.getNombre() + " "
-                                  + selected.getApellidos() + "? Se mantendrá el alumno en las tutorías que ya han sido creadas");
+                                  + selected.getApellidos()
+                              + "? Se mantendrá el alumno en las tutorías que ya han sido creadas");
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             students.remove(studentsTable.getSelectionModel().getSelectedIndex());

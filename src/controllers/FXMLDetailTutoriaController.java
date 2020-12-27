@@ -25,6 +25,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import modelo.Alumno;
 import modelo.Tutoria;
@@ -36,11 +39,10 @@ import modelo.Tutoria;
  */
 public class FXMLDetailTutoriaController implements Initializable {
 
-    //private boolean modifiedT = false;
     private boolean modifiedA = false;
     private boolean modifiedR = false;
     private FXMLTutoriasController tutoriasController;
-    private TextArea anotacionesF;
+    private TextArea anotacionesF = new TextArea();
 
     @FXML
     private ListView<Alumno> listViewStudents;
@@ -80,7 +82,14 @@ public class FXMLDetailTutoriaController implements Initializable {
         duration.setText(tutoria.getDuracion().toMinutes() + " mins");
         state.setText(tutoria.getEstado().toString());
         date.setText(tutoria.getFecha().format(DateTimeFormatter.ofPattern("dd MMM, yyyy")));
-        anotacionesField.setText(tutoria.getAnotaciones());
+        String anotaciones = tutoria.getAnotaciones();
+        if (anotaciones == null || anotaciones.isEmpty()) {
+            anotacionesField.setText("No hay anotaciones en la tutoria.");
+            anotacionesField.setFont(Font.font("System", FontPosture.ITALIC, 11));
+            anotacionesField.setTextFill(Color.GREY);
+        } else {
+            anotacionesField.setText(tutoria.getAnotaciones());
+        }
 
         listViewStudents.setItems(tutoria.getAlumnos());
         listViewStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
@@ -102,18 +111,14 @@ public class FXMLDetailTutoriaController implements Initializable {
 
     @FXML
     private void cancelTutoria(ActionEvent event) {
-        //tutoria.setEstado(Tutoria.EstadoTutoria.ANULADA);
-        //modifiedT = true;
         dialogo("Anulada");
     }
-    
+
     @FXML
     private void doneTutoria(ActionEvent event) {
-        //tutoria.setEstado(Tutoria.EstadoTutoria.REALIZADA);
-        //modifiedT = true;
         dialogo("Realizada");
     }
-    
+
     @FXML
     private void exit(ActionEvent event) {
         ((Stage) exitButton.getScene().getWindow()).close();
@@ -123,18 +128,20 @@ public class FXMLDetailTutoriaController implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación");
         alerta.setHeaderText("Nuevo estado: " + state);
-        //alerta.setContentText("Ha marcado la asignatura como " + state);
-        Label textAlertState = new Label();
-        textAlertState.setText("Ha marcado la asignatura como " + state);
-        Label textAlertAnotaciones = new Label();
-        textAlertAnotaciones.setText("Anotaciones: ");
-        textAlertAnotaciones.setPadding(new Insets(5,0,5,0));
-        anotacionesF = new TextArea();
-        anotacionesF.setPrefHeight(100);
-        anotacionesF.setMinHeight(100);
-        anotacionesF.wrapTextProperty().setValue(true);
-        Node vBoxAlert = new VBox(textAlertState, textAlertAnotaciones, anotacionesF);
-        alerta.getDialogPane().setContent(vBoxAlert);
+        if (state.equals("Realizada")) {
+            Label textAlertState = new Label();
+            textAlertState.setText("Ha marcado la asignatura como " + state);
+            Label textAlertAnotaciones = new Label();
+            textAlertAnotaciones.setText("Anotaciones: ");
+            textAlertAnotaciones.setPadding(new Insets(5, 0, 5, 0));
+            anotacionesF.setPrefHeight(100);
+            anotacionesF.setMinHeight(100);
+            anotacionesF.wrapTextProperty().setValue(true);
+            Node vBoxAlert = new VBox(textAlertState, textAlertAnotaciones, anotacionesF);
+            alerta.getDialogPane().setContent(vBoxAlert);
+        } else {
+            alerta.setContentText("Ha marcado la asignatura como " + state);
+        }
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             if (state.equals("Realizada")) {
@@ -142,24 +149,19 @@ public class FXMLDetailTutoriaController implements Initializable {
             } else if (state.equals("Anulada")) {
                 modifiedA = true;
             }
-            System.out.println(state);
             exit(null);
-            
+
         }
     }
 
-    /*public boolean modifiedT() {
-        return modifiedT;
-    }*/
-    
     public boolean modifiedA() {
         return modifiedA;
     }
-    
+
     public boolean modifiedR() {
         return modifiedR;
     }
-    
+
     public String getNotesTutoria() {
         return anotacionesF.getText();
     }
@@ -167,6 +169,5 @@ public class FXMLDetailTutoriaController implements Initializable {
     public void setController(FXMLTutoriasController controller) {
         this.tutoriasController = controller;
     }
-
 
 }

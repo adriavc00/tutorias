@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLDetailTutoriaController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLDetailTutoriaController">
     <children>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detalles tutoría" textAlignment="CENTER">
             <font>
@@ -27,10 +27,10 @@
          <children>
             <GridPane hgap="10.0" prefHeight="291.0" prefWidth="579.0" HBox.hgrow="ALWAYS">
               <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="282.6666615804037" minWidth="10.0" prefWidth="70.66666666666667" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="205.33333333333331" minWidth="10.0" prefWidth="205.33333333333331" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="180.66661834716797" minWidth="10.0" prefWidth="81.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="198.33329264322913" minWidth="10.0" prefWidth="194.33335367838544" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="282.6666615804037" minWidth="10.0" prefWidth="78.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="205.33333333333331" minWidth="10.0" prefWidth="187.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="180.66661834716797" minWidth="10.0" prefWidth="96.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="198.33329264322913" minWidth="10.0" prefWidth="189.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -64,15 +64,15 @@
                   <Label text="Estado:" />
                   <Label fx:id="state" GridPane.columnIndex="1" />
                   <Label fx:id="date" layoutX="174.0" layoutY="49.0" GridPane.columnIndex="3" />
-                  <Label fx:id="anotacionesField" alignment="TOP_LEFT" prefHeight="110.0" prefWidth="275.0" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+                  <Label fx:id="anotacionesField" alignment="TOP_LEFT" prefHeight="110.0" prefWidth="275.0" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.rowSpan="2" />
                </children>
             </GridPane>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
          <children>
-            <Button fx:id="doneButton" mnemonicParsing="false" onAction="#doneTutoria" prefHeight="50.0" prefWidth="100.0" text="Marcar como realizada" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelTutoria" prefHeight="50.0" prefWidth="100.0" text="Anular tutoría" />
+            <Button fx:id="doneButton" mnemonicParsing="false" onAction="#doneTutoria" prefHeight="52.0" prefWidth="120.0" text="Marcar como realizada" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelTutoria" prefHeight="52.0" prefWidth="120.0" text="Anular tutoría" />
          </children>
       </HBox>
       <Separator prefWidth="200.0" />

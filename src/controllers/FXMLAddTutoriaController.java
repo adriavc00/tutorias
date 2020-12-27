@@ -12,7 +12,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -20,28 +19,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
 import modelo.Asignatura;
 import modelo.Tutoria;
-import modelo.Tutorias;
 
 /**
  * FXML Controller class
@@ -117,7 +108,7 @@ public class FXMLAddTutoriaController implements Initializable {
 
             @Override
             public Asignatura fromString(String string) {
-                return null;
+                return new Asignatura(string, "");
             }
 
         });
@@ -141,7 +132,8 @@ public class FXMLAddTutoriaController implements Initializable {
 
             @Override
             public Alumno fromString(String string) {
-                return null;
+                String[] split = string.split(" ", 2);
+                return new Alumno(split[0], split[1], "");
             }
         });
         listViewStudents.setCellFactory((cell) -> new ListCell<Alumno>() {
@@ -210,11 +202,8 @@ public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private void addTutoria(ActionEvent event) {
         subjectSelected = comboBoxSubjects.getSelectionModel().getSelectedItem();
-        
-        tutoria = new Tutoria();
 
-        //ANOTACIONES
-        tutoria.setAnotaciones(anotacionesField.getText());
+        tutoria = new Tutoria();
 
         //ASIGNATURA
         tutoria.setAsignatura(subjectSelected);
@@ -239,19 +228,19 @@ public class FXMLAddTutoriaController implements Initializable {
         //ALUMNOS
         ObservableList<Alumno> studentsInTutoria = tutoria.getAlumnos();
         studentsInTutoria.addAll(studentsSelected);
-        
+
         //COMPROBANDO QUE LOS HORARIOS ESTÁN LIBRES
         boolean freeHour = true;    //ver si la hora está libre y no hay otra tutoría
         boolean notWeekend = true;  //ver que no coincida en fin de semana
         boolean inTime = true;  //que no se pase de las 20h
-        
+
         //tutoría no puede caer en fin de semana
         DayOfWeek day = tutoria.getFecha().getDayOfWeek();
-        
+
         if (day.equals(DayOfWeek.SATURDAY) || day.equals(DayOfWeek.SUNDAY)) {
             notWeekend = false;
         }
-        
+
         //FINAL
         m += durationInt;
         h += m / 60;
@@ -262,11 +251,11 @@ public class FXMLAddTutoriaController implements Initializable {
         if (notWeekend && endTime.compareTo(eightOClock) > 0) {
             inTime = false;
         }
-        
+
         if (notWeekend && inTime) {
             for (Tutoria t : tutorias) {
                 int comparation = tutoria.getInicio().compareTo(t.getInicio());
-                //System.out.println(comparation); 
+                //System.out.println(comparation);
                 int hOther = t.getInicio().getHour();
                 int mOther = t.getInicio().getMinute();
                 int durationOther = (int) t.getDuracion().toMinutes();
@@ -278,7 +267,12 @@ public class FXMLAddTutoriaController implements Initializable {
                 //System.out.println(otherEndTime);
 
                 if (tutoria.getFecha().equals(t.getFecha())) {
-                    if (comparation == 0 || (comparation < 0 && endTime.compareTo(t.getInicio()) > 0) || comparation > 0 && tutoria.getInicio().compareTo(otherEndTime)< 0) {
+                    if (comparation == 0
+                            || (comparation < 0 && endTime.compareTo(t.getInicio()) > 0)
+                            || comparation
+                                   > 0
+                                   && tutoria.
+                            getInicio().compareTo(otherEndTime) < 0) {
                         if (!t.getEstado().equals(Tutoria.EstadoTutoria.ANULADA)) {
                             freeHour = false;
                             break;
@@ -287,7 +281,7 @@ public class FXMLAddTutoriaController implements Initializable {
                 }
             }
         }
-            
+
         if (!freeHour || !notWeekend || !inTime) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error");

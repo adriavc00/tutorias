@@ -231,7 +231,7 @@ public class FXMLTutoriasController implements Initializable {
             LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
             LocalDate endOfWeek = startOfWeek.plusDays(4);
             for (Tutoria tutoria : tutoriasCon) {
-                if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1))    //HE AÑADIDO MINUSDAYS(1)
+                if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1)) //HE AÑADIDO MINUSDAYS(1)
                         && tutoria.getFecha().isBefore(endOfWeek)) {
                     paintAndLinkTutoria(tutoria);
                 }
@@ -256,7 +256,8 @@ public class FXMLTutoriasController implements Initializable {
         timeSlotSelected.addListener((a, oldV, newV) -> {
             if (a.getValue() == null) {
                 cancelButton.disableProperty().set(true);
-            } else if (a.getValue().getTutoria() == null || !a.getValue().getTutoria().getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) {
+            } else if (a.getValue().getTutoria() == null || !a.getValue().getTutoria().getEstado().
+                equals(Tutoria.EstadoTutoria.PEDIDA)) {
                 cancelButton.disableProperty().set(true);
             } else {
                 cancelButton.disableProperty().set(false);
@@ -354,6 +355,7 @@ public class FXMLTutoriasController implements Initializable {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.setTitle("Añadir tutoria");
                         stage.setScene(scene);
+                        stage.setResizable(false);
                         stage.showAndWait();
 
                         if (controller.pressedOk()) {
@@ -378,6 +380,7 @@ public class FXMLTutoriasController implements Initializable {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.setTitle("Detalle de tutoría");
                         stage.setScene(scene);
+                        stage.setResizable(false);
                         stage.showAndWait();
                         Tutoria tutoriaSelected = getSelectedTutoria();
                         if (controllerDetail.modifiedA()) {
@@ -386,8 +389,7 @@ public class FXMLTutoriasController implements Initializable {
                             tutoriaSelected.setAnotaciones(controllerDetail.getNotesTutoria());
                             paintAndLinkTutoria(tutoriaSelected);
                             BDaccess.salvar();
-                        }
-                        else if (controllerDetail.modifiedR()) {
+                        } else if (controllerDetail.modifiedR()) {
                             tutoriaSelected.setEstado(Tutoria.EstadoTutoria.REALIZADA);
                             tutoriaSelected.setAnotaciones(controllerDetail.getNotesTutoria());
                             paintAndLinkTutoria(tutoriaSelected);
@@ -412,6 +414,7 @@ public class FXMLTutoriasController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Añadir tutoria");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.showAndWait();
         FXMLAddTutoriaController controller = customLoader.getController();
 
@@ -419,14 +422,11 @@ public class FXMLTutoriasController implements Initializable {
             Tutoria newTutoria = controller.getNewTutoria();
             paintAndLinkTutoria(newTutoria);
 
-            
-            
             //PARA ELIMINAR LAS TUTORÍAS DE LA BASE DE DATOS
-            /*tutoriasCon.remove(0, tutoriasCon.size()-1); //PARA BORRAR TODAS LAS TUTORÍAS
-            for (Tutoria tutoria : tutoriasCon) {
-                System.out.println(tutoria.getInicio()); 
-            }*/
-            
+            /*
+             * tutoriasCon.remove(0, tutoriasCon.size()-1); //PARA BORRAR TODAS LAS TUTORÍAS for
+             * (Tutoria tutoria : tutoriasCon) { System.out.println(tutoria.getInicio()); }
+             */
             tutoriasCon.add(newTutoria);
             BDaccess.salvar();
         }
@@ -478,12 +478,21 @@ public class FXMLTutoriasController implements Initializable {
     @FXML
     private void notDonePressed(ActionEvent event) {
         LocalDateTime now = LocalDateTime.now();
+        LocalDate date = day.getValue();
+        LocalDate startOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
+        LocalDate endOfWeek = startOfWeek.plusDays(4);
         for (Tutoria tutoria : tutoriasCon) {
-            if ((tutoria.getFecha().isBefore(now.toLocalDate()) && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) || (tutoria.getFecha().isEqual(now.toLocalDate())
-                    && tutoria.getInicio().isBefore(now.toLocalTime())
-                    && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA))) {
+            LocalDate tutoriaDate = tutoria.getFecha();
+            if ((tutoriaDate.isBefore(now.toLocalDate())
+                     && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA))
+                    || (tutoriaDate.isEqual(now.toLocalDate())
+                            && tutoria.getInicio().isBefore(now.toLocalTime())
+                            && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA))) {
                 tutoria.setEstado(Tutoria.EstadoTutoria.NO_ASISTIDA);
-                paintAndLinkTutoria(tutoria);
+                if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1))
+                        && tutoria.getFecha().isBefore(endOfWeek)) {
+                    paintAndLinkTutoria(tutoria);
+                }
             }
         }
         BDaccess.salvar();
