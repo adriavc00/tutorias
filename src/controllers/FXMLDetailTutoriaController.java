@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -23,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -33,16 +25,18 @@ import modelo.Alumno;
 import modelo.Tutoria;
 
 /**
- * FXML Controller class
+ * Clase controladora FXML de los detalles de una tutoría.
  *
- * @author ADRIA - LP
+ * @author Adrià V.
+ * @author Felipe Z.
  */
 public class FXMLDetailTutoriaController implements Initializable {
 
     private boolean modifiedA = false;
     private boolean modifiedR = false;
     private FXMLTutoriasController tutoriasController;
-    private TextArea anotacionesF = new TextArea();
+    private Tutoria tutoria;
+    private final TextArea anotacionesF = new TextArea();
 
     @FXML
     private ListView<Alumno> listViewStudents;
@@ -58,8 +52,6 @@ public class FXMLDetailTutoriaController implements Initializable {
     private Label date;
     @FXML
     private Button cancelButton;
-
-    private Tutoria tutoria;
     @FXML
     private Label anotacionesField;
     @FXML
@@ -69,6 +61,9 @@ public class FXMLDetailTutoriaController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -107,6 +102,22 @@ public class FXMLDetailTutoriaController implements Initializable {
             cancelButton.setDisable(true);
             doneButton.setDisable(true);
         }
+    }
+
+    public boolean modifiedA() {
+        return modifiedA;
+    }
+
+    public boolean modifiedR() {
+        return modifiedR;
+    }
+
+    public String getNotesTutoria() {
+        return anotacionesF.getText();
+    }
+
+    public void setController(FXMLTutoriasController controller) {
+        this.tutoriasController = controller;
     }
 
     @FXML
@@ -149,25 +160,7 @@ public class FXMLDetailTutoriaController implements Initializable {
             } else if (state.equals("Anulada")) {
                 modifiedA = true;
             }
-            exit(null);
-
+            ((Stage) exitButton.getScene().getWindow()).close();
         }
     }
-
-    public boolean modifiedA() {
-        return modifiedA;
-    }
-
-    public boolean modifiedR() {
-        return modifiedR;
-    }
-
-    public String getNotesTutoria() {
-        return anotacionesF.getText();
-    }
-
-    public void setController(FXMLTutoriasController controller) {
-        this.tutoriasController = controller;
-    }
-
 }

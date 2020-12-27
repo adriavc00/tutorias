@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import accesoBD.AccesoBD;
@@ -23,11 +18,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelo.Alumno;
@@ -35,9 +30,10 @@ import modelo.Asignatura;
 import modelo.Tutoria;
 
 /**
- * FXML Controller class
+ * Clase controladora FXML de la funcionalidad de agregar una tutoria a la base de datos
  *
- * @author ADRIA - LP
+ * @author Adria V.
+ * @author Felipe Z.
  */
 public class FXMLAddTutoriaController implements Initializable {
     private ObservableList<Alumno> students;
@@ -69,11 +65,12 @@ public class FXMLAddTutoriaController implements Initializable {
     private Spinner<Integer> hours;
     @FXML
     private Spinner<Integer> minutes;
-    @FXML
-    private TextArea anotacionesField;
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -155,8 +152,9 @@ public class FXMLAddTutoriaController implements Initializable {
 
         addTutoriaButton.disableProperty().bind(
             Bindings.or(Bindings.isEmpty(studentsSelected),
-                        Bindings.or(Bindings.lessThan(comboBoxSubjects.getSelectionModel().
-                            selectedIndexProperty(), 0), Bindings.isNull(datePicker.valueProperty())))
+                        Bindings.or(Bindings.lessThan(
+                            comboBoxSubjects.getSelectionModel().selectedIndexProperty(), 0),
+                                    Bindings.isNull(datePicker.valueProperty())))
         );
 
         // EVENT HANDLER
@@ -246,7 +244,6 @@ public class FXMLAddTutoriaController implements Initializable {
         h += m / 60;
         m = m % 60;
         LocalTime endTime = LocalTime.of(h, m);
-        //System.out.println(endTime);
         LocalTime eightOClock = LocalTime.of(20, 0);
         if (notWeekend && endTime.compareTo(eightOClock) > 0) {
             inTime = false;
@@ -255,16 +252,13 @@ public class FXMLAddTutoriaController implements Initializable {
         if (notWeekend && inTime) {
             for (Tutoria t : tutorias) {
                 int comparation = tutoria.getInicio().compareTo(t.getInicio());
-                //System.out.println(comparation);
                 int hOther = t.getInicio().getHour();
                 int mOther = t.getInicio().getMinute();
                 int durationOther = (int) t.getDuracion().toMinutes();
-                //System.out.println(hOther + ":" + mOther + ", " + durationOther);
                 mOther += durationOther;
                 hOther += mOther / 60;
                 mOther = mOther % 60;
                 LocalTime otherEndTime = LocalTime.of(hOther, mOther);
-                //System.out.println(otherEndTime);
 
                 if (tutoria.getFecha().equals(t.getFecha())) {
                     if (comparation == 0
@@ -299,5 +293,4 @@ public class FXMLAddTutoriaController implements Initializable {
             ((Stage) cancelButton.getScene().getWindow()).close();
         }
     }
-
 }

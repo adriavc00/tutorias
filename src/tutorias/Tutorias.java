@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tutorias;
 
 import accesoBD.AccesoBD;
@@ -12,27 +7,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import modelo.Alumno;
 import modelo.Asignatura;
 
 /**
+ * Clase principal de la aplicación desde la cual se abria una ventana cargada de el fichero
+ * views.FXMLMain.fxml situado en el paquete views. A partir de ahí los eventos se gestionaran desde
+ * controllers.FXMLMainController y los consecuentes.
  *
- * @author ADRIA - LP
+ * @author Adria V.
+ * @author Felipe Z.
  */
 public class Tutorias extends Application {
 
-    private ObservableList<Alumno> students;
-    private ObservableList<Asignatura> subjects;
-    private AccesoBD BDaccess;
-
     @Override
     public void start(Stage stage) throws Exception {
-
-        BDaccess = AccesoBD.getInstance();
-        subjects = BDaccess.getTutorias().getAsignaturas();
-
+        /*
+         * Guardamos las asignaturas obligatorias la primera vez que la aplicación se arranca en la
+         * primera y segunda posicion de la lista de asignaturas de la base de datos.
+         */
         Asignatura tfg = new Asignatura("TFG", "Trabajo Fin de Grado");
         Asignatura tfm = new Asignatura("TFM", "Trabajo Fin de Master");
+
+        AccesoBD BDaccess = AccesoBD.getInstance();
+        ObservableList<Asignatura> subjects = BDaccess.getTutorias().getAsignaturas();
 
         if (!subjects.get(0).getCodigo().equals(tfg.getCodigo())
                 || !subjects.get(1).getCodigo().equals(tfm.getCodigo())) {
@@ -41,24 +38,14 @@ public class Tutorias extends Application {
             BDaccess.salvar();
         }
 
-        //ESTO ES PARA PRUEBAS
-        students = BDaccess.getTutorias().getAlumnosTutorizados();
-        if (students.isEmpty()) {
-            students.add(new Alumno("n1", "a1", "email@1"));
-            students.add(new Alumno("n", "a", "email@"));
-            BDaccess.salvar();
-        }
-
-        Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLMain.fxml"));
 
         Scene scene = new Scene(root);
-
         stage.setScene(scene);
-        stage.setMinHeight(420);
-        stage.setMinWidth(650);
-        stage.setTitle("Iniciar sesión");
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+        stage.setTitle("Gestor de tutorias");
         stage.show();
-
     }
 
     /**

@@ -409,6 +409,11 @@ public class FXMLTutoriasController implements Initializable {
             getResource("/views/FXMLAddTutoria.fxml"));
         Parent root = customLoader.load();
 
+        FXMLAddTutoriaController controller = customLoader.getController();
+        if (timeSlotSelected.isNotNull().get()) {
+            controller.setTimeParameters(timeSlotSelected.get().start);
+        }
+
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -416,7 +421,6 @@ public class FXMLTutoriasController implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
-        FXMLAddTutoriaController controller = customLoader.getController();
 
         if (controller.pressedOk()) {
             Tutoria newTutoria = controller.getNewTutoria();
