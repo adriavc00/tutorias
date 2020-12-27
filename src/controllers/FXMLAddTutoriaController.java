@@ -279,8 +279,10 @@ public class FXMLAddTutoriaController implements Initializable {
 
                 if (tutoria.getFecha().equals(t.getFecha())) {
                     if (comparation == 0 || (comparation < 0 && endTime.compareTo(t.getInicio()) > 0) || comparation > 0 && tutoria.getInicio().compareTo(otherEndTime)< 0) {
-                        freeHour = false;
-                        break;
+                        if (!t.getEstado().equals(Tutoria.EstadoTutoria.ANULADA)) {
+                            freeHour = false;
+                            break;
+                        }
                     }
                 }
             }

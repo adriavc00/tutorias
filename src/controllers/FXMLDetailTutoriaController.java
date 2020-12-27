@@ -136,7 +136,7 @@ public class FXMLDetailTutoriaController implements Initializable {
         Node vBoxAlert = new VBox(textAlertState, textAlertAnotaciones, anotacionesF);
         alerta.getDialogPane().setContent(vBoxAlert);
         Optional<ButtonType> result = alerta.showAndWait();
-        if (result.isPresent() || result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             if (state.equals("Realizada")) {
                 modifiedR = true;
             } else if (state.equals("Anulada")) {
