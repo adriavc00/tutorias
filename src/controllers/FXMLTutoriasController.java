@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -60,10 +61,6 @@ public class FXMLTutoriasController implements Initializable {
     @FXML
     private Button cancelButton;
     @FXML
-    private Button noDoneButton;
-    @FXML
-    private Button addCommentButton;
-    @FXML
     private DatePicker day;
     @FXML
     private GridPane grid;
@@ -99,12 +96,16 @@ public class FXMLTutoriasController implements Initializable {
         private final LocalDateTime start;
         private final Duration duration;
         protected final Pane view;
-        private Tutoria tutoria;
+        private ObjectProperty<Tutoria> tutoria = new SimpleObjectProperty<Tutoria>();
 
         private final BooleanProperty selected = new SimpleBooleanProperty();
 
         public final BooleanProperty selectedProperty() {
             return selected;
+        }
+
+        public final ObjectProperty<Tutoria> tutoriaProperty() {
+            return tutoria;
         }
 
         public final boolean isSelected() {
@@ -151,12 +152,12 @@ public class FXMLTutoriasController implements Initializable {
             return view;
         }
 
-        private void setTutoria(Tutoria tutoria) {
-            this.tutoria = tutoria;
+        public void setTutoria(Tutoria tutoria) {
+            this.tutoria.set(tutoria);
         }
 
-        private Tutoria getTutoria() {
-            return tutoria;
+        public Tutoria getTutoria() {
+            return tutoria.get();
         }
     }
     @FXML
@@ -214,7 +215,13 @@ public class FXMLTutoriasController implements Initializable {
         // pinta los SlotTime en el grid
         setTimeSlotsGrid(day.getValue());
         for (Tutoria tutoria : tutoriasCon) {
-            paintAndLinkTutoria(tutoria);
+            LocalDate c = day.getValue();
+            LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
+            LocalDate endOfWeek = startOfWeek.plusDays(4);
+            if (tutoria.getFecha().isAfter(startOfWeek)
+                    && tutoria.getFecha().isBefore(endOfWeek)) {
+                paintAndLinkTutoria(tutoria);
+            }
         }
 
         //---------------------------------------------------------------------
@@ -244,14 +251,21 @@ public class FXMLTutoriasController implements Initializable {
                                          + c.getStart().format(timeFormatter));
             }
         });
+
+        // BINDINGS
+        timeSlotSelected.addListener((a, oldV, newV) -> {
+            if (a.getValue() == null) {
+                cancelButton.disableProperty().set(true);
+            } else if (a.getValue().getTutoria() == null) {
+                cancelButton.disableProperty().set(true);
+            } else {
+                cancelButton.disableProperty().set(false);
+            }
+        });
     }
 
     public Tutoria getSelectedTutoria() {
         return timeSlotSelected.get().getTutoria();
-    }
-
-    public int pruebaInt() {
-        return 10;
     }
 
     private void setTimeSlotsGrid(LocalDate date) {
@@ -447,5 +461,27 @@ public class FXMLTutoriasController implements Initializable {
                     break;
             }
         }
+    }
+
+    @FXML
+    private void notDonePressed(ActionEvent event) {
+        LocalDateTime now = LocalDateTime.now();
+        for (Tutoria tutoria : tutoriasCon) {
+            if (tutoria.getFecha().isBefore(now.toLocalDate())
+                    && tutoria.getInicio().isBefore(now.toLocalTime())
+                    && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) {
+                tutoria.setEstado(Tutoria.EstadoTutoria.NO_ASISTIDA);
+                paintAndLinkTutoria(tutoria);
+            }
+        }
+        BDaccess.salvar();
+    }
+
+    @FXML
+    private void cancelPressed(ActionEvent event) {
+        Tutoria tutoria = timeSlotSelected.get().getTutoria();
+        tutoria.setEstado(Tutoria.EstadoTutoria.ANULADA);
+        paintAndLinkTutoria(tutoria);
+        BDaccess.salvar();
     }
 }
