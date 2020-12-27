@@ -189,7 +189,7 @@ public class FXMLTutoriasController implements Initializable {
                 grid.add(label, 0, i);
             } else {
                 label.setText("");
-                label.setFont(Font.font(7));
+                label.setFont(Font.font(5));
                 grid.add(label, 0, i);
             }
         }
@@ -256,7 +256,7 @@ public class FXMLTutoriasController implements Initializable {
         timeSlotSelected.addListener((a, oldV, newV) -> {
             if (a.getValue() == null) {
                 cancelButton.disableProperty().set(true);
-            } else if (a.getValue().getTutoria() == null) {
+            } else if (a.getValue().getTutoria() == null || !a.getValue().getTutoria().getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) {
                 cancelButton.disableProperty().set(true);
             } else {
                 cancelButton.disableProperty().set(false);
@@ -379,9 +379,18 @@ public class FXMLTutoriasController implements Initializable {
                         stage.setTitle("Detalle de tutoría");
                         stage.setScene(scene);
                         stage.showAndWait();
-
-                        if (controllerDetail.modifiedT()) {
+                        Tutoria tutoriaSelected = getSelectedTutoria();
+                        if (controllerDetail.modifiedA()) {
                             //NO SÉ SI HAY QUE HACER ALGO ESPECIAL PARA GUARDAR LA TUTORÍA MODIFICADA
+                            tutoriaSelected.setEstado(Tutoria.EstadoTutoria.ANULADA);
+                            tutoriaSelected.setAnotaciones(controllerDetail.getNotesTutoria());
+                            paintAndLinkTutoria(tutoriaSelected);
+                            BDaccess.salvar();
+                        }
+                        else if (controllerDetail.modifiedR()) {
+                            tutoriaSelected.setEstado(Tutoria.EstadoTutoria.REALIZADA);
+                            tutoriaSelected.setAnotaciones(controllerDetail.getNotesTutoria());
+                            paintAndLinkTutoria(tutoriaSelected);
                             BDaccess.salvar();
                         }
                     } catch (IOException e) {
@@ -410,11 +419,14 @@ public class FXMLTutoriasController implements Initializable {
             Tutoria newTutoria = controller.getNewTutoria();
             paintAndLinkTutoria(newTutoria);
 
-            /*
-             * tutoriasCon.remove(0, tutoriasCon.size()); //PARA BORRAR TODAS LAS TUTORÍAS
-             * ANTERIORES for (Tutoria tutoria : tutoriasCon) {
-             * System.out.println(tutoria.getInicio()); }
-             */
+            
+            
+            //PARA ELIMINAR LAS TUTORÍAS DE LA BASE DE DATOS
+            /*tutoriasCon.remove(0, tutoriasCon.size()-1); //PARA BORRAR TODAS LAS TUTORÍAS
+            for (Tutoria tutoria : tutoriasCon) {
+                System.out.println(tutoria.getInicio()); 
+            }*/
+            
             tutoriasCon.add(newTutoria);
             BDaccess.salvar();
         }
@@ -424,7 +436,7 @@ public class FXMLTutoriasController implements Initializable {
         int dayIndex = tutoria.getFecha().getDayOfWeek().getValue() - 1;
         int timeIndex
             = (tutoria.getInicio().toSecondOfDay() - firstSlotStart.toSecondOfDay()) / 600;
-        for (int i = 0; (i * 10) <= tutoria.getDuracion().toMinutes(); i++) {
+        for (int i = 0; (i * 10) < tutoria.getDuracion().toMinutes(); i++) {    //HE QUITADO EL IGUAL, PINTABA UN SLOT DE MÁS
             TimeSlot timeSlot = timeSlots.get(dayIndex).get(timeIndex + i);
             timeSlot.setTutoria(tutoria);
             ObservableList<String> styleClass = timeSlot.getView().getStyleClass();
