@@ -96,7 +96,7 @@ public class FXMLListSubjectsController implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Asignatura");
         alerta.setHeaderText("Confirmación");
-        alerta.setContentText("Seguro que quieres eliminar la asignatura " + selected.getCodigo());
+        alerta.setContentText("¿Seguro que quieres eliminar la asignatura " + selected.getCodigo() + "? Se mantendrá la asignatura en las tutorías que ya han sido creadas");
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             subjects.remove(subjectsTable.getSelectionModel().getSelectedIndex());

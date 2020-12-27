@@ -218,7 +218,7 @@ public class FXMLTutoriasController implements Initializable {
             LocalDate c = day.getValue();
             LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
             LocalDate endOfWeek = startOfWeek.plusDays(4);
-            if (tutoria.getFecha().isAfter(startOfWeek)
+            if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1)) // HE AÑADIDO LO DE MINUSDAYS(1)
                     && tutoria.getFecha().isBefore(endOfWeek)) {
                 paintAndLinkTutoria(tutoria);
             }
@@ -231,7 +231,7 @@ public class FXMLTutoriasController implements Initializable {
             LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
             LocalDate endOfWeek = startOfWeek.plusDays(4);
             for (Tutoria tutoria : tutoriasCon) {
-                if (tutoria.getFecha().isAfter(startOfWeek)
+                if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1))    //HE AÑADIDO MINUSDAYS(1)
                         && tutoria.getFecha().isBefore(endOfWeek)) {
                     paintAndLinkTutoria(tutoria);
                 }
@@ -479,9 +479,9 @@ public class FXMLTutoriasController implements Initializable {
     private void notDonePressed(ActionEvent event) {
         LocalDateTime now = LocalDateTime.now();
         for (Tutoria tutoria : tutoriasCon) {
-            if (tutoria.getFecha().isBefore(now.toLocalDate())
+            if ((tutoria.getFecha().isBefore(now.toLocalDate()) && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) || (tutoria.getFecha().isEqual(now.toLocalDate())
                     && tutoria.getInicio().isBefore(now.toLocalTime())
-                    && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA)) {
+                    && tutoria.getEstado().equals(Tutoria.EstadoTutoria.PEDIDA))) {
                 tutoria.setEstado(Tutoria.EstadoTutoria.NO_ASISTIDA);
                 paintAndLinkTutoria(tutoria);
             }

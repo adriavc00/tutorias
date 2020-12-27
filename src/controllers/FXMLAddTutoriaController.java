@@ -202,7 +202,7 @@ public class FXMLAddTutoriaController implements Initializable {
     @FXML
     private void pressedAddStudent(ActionEvent event) {
         Alumno selected = comboBoxStudents.getSelectionModel().getSelectedItem();
-        if (selected != null) {
+        if (selected != null && !studentsSelected.contains(selected)) {
             studentsSelected.add(selected);
         }
     }

@@ -90,8 +90,8 @@ public class FXMLListStudentsController implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Alumno");
         alerta.setHeaderText("Confirmación");
-        alerta.setContentText("Seguro que quieres eliminar el alumno " + selected.getNombre() + " "
-                                  + selected.getApellidos());
+        alerta.setContentText("¿Seguro que quieres eliminar el alumno " + selected.getNombre() + " "
+                                  + selected.getApellidos() + "? Se mantendrá el alumno en las tutorías que ya han sido creadas");
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             students.remove(studentsTable.getSelectionModel().getSelectedIndex());
