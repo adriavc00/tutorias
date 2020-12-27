@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : DSIC_jsoler
 */
 
+.grid {
+    -fx-background-color: black;
+}
+
 .time-slot-pedida {
     -fx-background-color: red, #00ffcc ;
     -fx-background-insets: 0, 1 1 0 0 ;

@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="mainPane" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLTutoriasController">
+<HBox fx:id="mainPane" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@../resources/main-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLTutoriasController">
     <children>
-        <ToolBar orientation="VERTICAL" HBox.hgrow="NEVER">
+        <ToolBar orientation="VERTICAL" styleClass="toolbar" stylesheets="@../resources/main-theme.css" HBox.hgrow="NEVER">
             <items>
                 <Pane VBox.vgrow="ALWAYS" />
                 <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registerPressed" prefHeight="55.0" prefWidth="110.0" text="Registrar" textAlignment="CENTER" />
@@ -32,7 +32,7 @@
                 <DatePicker fx:id="day" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                 <ScrollPane fx:id="scrollPane" VBox.vgrow="ALWAYS">
                     <content>
-                        <GridPane fx:id="grid" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="700.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                        <GridPane fx:id="grid" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="700.0" styleClass="grid" stylesheets="@../resources/calendar-view.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                             <columnConstraints>
                                 <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />

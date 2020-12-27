@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLListSubjectsController">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resources/main-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLListSubjectsController">
     <children>
-        <ToolBar orientation="VERTICAL" HBox.hgrow="NEVER">
+        <ToolBar orientation="VERTICAL" styleClass="toolbar" stylesheets="@../resources/main-theme.css" HBox.hgrow="NEVER">
             <items>
                 <Pane VBox.vgrow="SOMETIMES" />
                 <Button fx:id="addSubject" mnemonicParsing="false" onAction="#add" prefHeight="55.0" prefWidth="110.0" text="Añadir" />

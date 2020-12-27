@@ -1,0 +1,32 @@
+/*
+    Created on : 27 dic. 2020, 23:39:31
+    Author     : ADRIA - LP
+*/
+
+.root {
+    -fx-background-color: #2e2f2f;
+}
+
+.label {
+    -fx-text-fill: whitesmoke;
+}
+
+.text {
+    -fx-text-fill: whitesmoke;
+}
+
+.toolbar {
+    -fx-background-color: #1d1d1d;
+}
+
+.text-field, .text-area {
+    -fx-border-color: white;
+    -fx-fill: #1d1d1d;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-text-fill: whitesmoke;
+}
