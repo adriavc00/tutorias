@@ -42,8 +42,8 @@ public class Tutorias extends Application {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMinHeight(600);
-        stage.setMinWidth(800);
+        stage.setMinHeight(650);
+        stage.setMinWidth(850);
         stage.setTitle("Gestor de tutorias");
         stage.show();
     }
