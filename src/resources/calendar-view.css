@@ -13,51 +13,51 @@ and open the template in the editor.
 }
 
 .time-slot-pedida {
-    -fx-background-color: red, #00ffcc ;
+    -fx-background-color: #666666, #009999 ;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-libre{
-    -fx-background-color: red, white;
+    -fx-background-color: #666666, #cccccc;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-no-asistida {
-    -fx-background-color: red, blue ;
+    -fx-background-color: #666666, #003399 ;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-anulada {
-    -fx-background-color: red, gray;
+    -fx-background-color: #666666, #666666;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-realizada {
-    -fx-background-color: red, green ;
+    -fx-background-color: #666666, #006600 ;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-pedida:selected {
-    -fx-background-color: #00ffcc, indianred;
+    -fx-background-color: white, darkturquoise;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-libre:selected {
-    -fx-background-color: indianred;
+    -fx-background-color: whitesmoke;
 }
 
 .time-slot-no-asistida:selected {
-    -fx-background-color: blue, indianred;
+    -fx-background-color: white, #0099ff;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-anulada:selected {
-    -fx-background-color: gray, indianred;
+    -fx-background-color: white, #999999;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 
 .time-slot-realizada:selected {
-    -fx-background-color: green, indianred;
+    -fx-background-color: white, #009900;
     -fx-background-insets: 0, 1 1 0 0 ;
 }
 

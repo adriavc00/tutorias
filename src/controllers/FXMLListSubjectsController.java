@@ -81,8 +81,8 @@ public class FXMLListSubjectsController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Añadir asignatura");
         stage.setScene(scene);
-        stage.showAndWait();
         stage.setResizable(false);
+        stage.showAndWait();
         FXMLNewSubjectController controller = customLoader.getController();
 
         if (controller.pressedOk()) {

@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" stylesheets="@../resources/main-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLNewStudentController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" stylesheets="@../resources/main-theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLNewStudentController">
     <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo alumno" textAlignment="CENTER">
+        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo alumno" textAlignment="CENTER">
             <font>
                 <Font name="System Italic" size="28.0" />
             </font>
@@ -29,11 +29,11 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
                 <TextField fx:id="name" alignment="TOP_LEFT" GridPane.columnIndex="1" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:" GridPane.rowIndex="1" />
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:" GridPane.rowIndex="1" />
                 <TextField fx:id="surnames" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" GridPane.rowIndex="2" />
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" GridPane.rowIndex="2" />
                 <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <VBox.margin>

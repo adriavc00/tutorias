@@ -309,7 +309,7 @@ public class FXMLTutoriasController implements Initializable {
                 TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
 
                 if (startTime.getMinute() == 0) {
-                    timeSlot.getView().setStyle("-fx-border-width: 2 0 0 0; -fx-border-color: red;");
+                    timeSlot.getView().setStyle("-fx-border-width: 2 0 0 0; -fx-border-color: black;");
                 }
 
                 slotsDia.add(timeSlot);
