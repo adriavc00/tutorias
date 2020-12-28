@@ -219,7 +219,7 @@ public class FXMLTutoriasController implements Initializable {
             LocalDate startOfWeek = c.minusDays(c.getDayOfWeek().getValue() - 1);
             LocalDate endOfWeek = startOfWeek.plusDays(4);
             if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1)) // HE AÑADIDO LO DE MINUSDAYS(1)
-                    && tutoria.getFecha().isBefore(endOfWeek)) {
+                    && tutoria.getFecha().isBefore(endOfWeek.plusDays(1))) {    //HE AÑADIDO PLUSDAYS(1)
                 paintAndLinkTutoria(tutoria);
             }
         }
@@ -232,7 +232,7 @@ public class FXMLTutoriasController implements Initializable {
             LocalDate endOfWeek = startOfWeek.plusDays(4);
             for (Tutoria tutoria : tutoriasCon) {
                 if (tutoria.getFecha().isAfter(startOfWeek.minusDays(1)) //HE AÑADIDO MINUSDAYS(1)
-                        && tutoria.getFecha().isBefore(endOfWeek)) {
+                        && tutoria.getFecha().isBefore(endOfWeek.plusDays(1))) { //HE AÑADIDO PLUSDAYS(1)
                     paintAndLinkTutoria(tutoria);
                 }
             }
@@ -484,7 +484,7 @@ public class FXMLTutoriasController implements Initializable {
         LocalDateTime now = LocalDateTime.now();
         LocalDate date = day.getValue();
         LocalDate startOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
-        LocalDate endOfWeek = startOfWeek.plusDays(4);
+        LocalDate endOfWeek = startOfWeek.plusDays(5);
         for (Tutoria tutoria : tutoriasCon) {
             LocalDate tutoriaDate = tutoria.getFecha();
             if ((tutoriaDate.isBefore(now.toLocalDate())
